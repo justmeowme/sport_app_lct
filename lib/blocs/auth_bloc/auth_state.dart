@@ -1,4 +1,3 @@
-
 import '../../models/user.dart';
 
 abstract class AuthState {}

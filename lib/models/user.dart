@@ -1,16 +1,17 @@
 class User {
   final int id;
-  final String login;
-  final String password;
-  final String gender;
+  final String? login;
+  final String? password;
+  final String? gender;
   final int height;
   final int weight;
-  final String goals;
-  final String experience;
+  final String? goals;
+  final String? experience;
   final bool gymMember;
   final bool beginner;
-  final String gymName;
-  final String healthConditions;
+  final String? gymName;
+  final String? healthConditions;
+  final int role;
 
   User({
     required this.id,
@@ -25,6 +26,7 @@ class User {
     this.beginner = false,
     this.gymName = '',
     this.healthConditions = '',
+    this.role = 0,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class User {
       beginner: json['Beginner'] ?? false,
       gymName: json['GymName'] ?? '',
       healthConditions: json['HealthConditions'] ?? '',
+      role: json['Role'] ?? 0,
     );
   }
 
@@ -58,6 +61,7 @@ class User {
       'Beginner': beginner,
       'GymName': gymName,
       'HealthConditions': healthConditions,
+      'Role': role,
     };
   }
 }

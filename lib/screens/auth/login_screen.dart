@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sport_app_lct/screens/auth/register_screen.dart';
-
+import 'package:sport_app_lct/screens/client/client_home_screen.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../blocs/auth_bloc/auth_event.dart';
 import '../../blocs/auth_bloc/auth_state.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
@@ -21,7 +21,11 @@ class LoginScreen extends StatelessWidget {
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is Authenticated) {
-              // Handle successful authentication
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => ClientHomeScreen(),
+                ),
+              );
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
@@ -32,11 +36,11 @@ class LoginScreen extends StatelessWidget {
             children: <Widget>[
               TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
+                decoration: InputDecoration(labelText: 'Логин'),
               ),
               TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(labelText: 'Пароль'),
                 obscureText: true,
               ),
               SizedBox(height: 20),
@@ -49,18 +53,21 @@ class LoginScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('Login'),
+                child: Text('Логин'),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => RegisterScreen(),
+                      builder: (context) => BlocProvider.value(
+                        value: BlocProvider.of<AuthBloc>(context),
+                        child: RegisterScreen(),
+                      ),
                     ),
                   );
                 },
-                child: Text('Register'),
-              )
+                child: Text('Регистрация'),
+              ),
             ],
           ),
         ),

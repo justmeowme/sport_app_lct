@@ -6,26 +6,32 @@ import 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
 
-  AuthBloc({required this.authRepository}) : super(AuthInitial());
+  AuthBloc({required this.authRepository}) : super(AuthInitial()) {
+    on<SignInEvent>(_onSignIn);
+    on<SignUpEvent>(_onSignUp);
+  }
 
-  @override
-  Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is SignInEvent) {
-      yield AuthLoading();
-      try {
-        final user = await authRepository.signIn(event.login, event.password);
-        yield Authenticated(user: user);
-      } catch (e) {
-        yield AuthError(message: e.toString());
-      }
-    } else if (event is SignUpEvent) {
-      yield AuthLoading();
-      try {
-        final user = await authRepository.signUp(event.login, event.password);
-        yield Authenticated(user: user);
-      } catch (e) {
-        yield AuthError(message: e.toString());
-      }
+  Future<void> _onSignIn(SignInEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final user = await authRepository.signIn(event.login, event.password);
+      print('User signed in: $user');
+      emit(Authenticated(user: user));
+    } catch (e) {
+      print('Sign in error: $e');
+      emit(AuthError(message: e.toString()));
+    }
+  }
+
+  Future<void> _onSignUp(SignUpEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final user = await authRepository.signUp(event.login, event.password);
+      print('User signed up: $user');
+      emit(Authenticated(user: user));
+    } catch (e) {
+      print('Sign up error: $e');
+      emit(AuthError(message: e.toString()));
     }
   }
 }
