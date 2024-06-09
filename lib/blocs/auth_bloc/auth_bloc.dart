@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../repositories/auth_repository.dart';
+import '../../services/auth/auth_service.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
@@ -9,6 +10,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required this.authRepository}) : super(AuthInitial()) {
     on<SignInEvent>(_onSignIn);
     on<SignUpEvent>(_onSignUp);
+    on<SignOutEvent>(_onSignOut);
   }
 
   Future<void> _onSignIn(SignInEvent event, Emitter<AuthState> emit) async {
@@ -31,6 +33,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Authenticated(user: user));
     } catch (e) {
       print('Sign up error: $e');
+      emit(AuthError(message: e.toString()));
+    }
+  }
+
+  Future<void> _onSignOut(SignOutEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      await AuthService().removeToken();
+      emit(AuthInitial());
+    } catch (e) {
+      print('Sign out error: $e');
       emit(AuthError(message: e.toString()));
     }
   }

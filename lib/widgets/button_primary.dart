@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class ButtonPrimary extends StatelessWidget {
   final String text;
-  final void onPress;
+  final VoidCallback onPress;
 
-  ButtonPrimary({required this.text, this.onPress});
+  ButtonPrimary({required this.text, required this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ButtonPrimary extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
         ),
-        onPressed: () => onPress,
+        onPressed: onPress,
         child: Text(
           text,
           style: const TextStyle(

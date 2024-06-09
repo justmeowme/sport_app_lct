@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/screens/client/client_home_screen.dart';
+import 'package:sport_app_lct/widgets/combined_text.dart';
+import 'package:sport_app_lct/widgets/button_primary.dart';
+import 'package:sport_app_lct/widgets/custom_input.dart';
+import 'package:sport_app_lct/widgets/custom_input_password.dart';
+import 'package:sport_app_lct/widgets/header.dart';
+import 'package:sport_app_lct/widgets/small_text.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../blocs/auth_bloc/auth_event.dart';
 import '../../blocs/auth_bloc/auth_state.dart';
@@ -13,9 +19,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocListener<AuthBloc, AuthState>(
@@ -33,41 +37,82 @@ class LoginScreen extends StatelessWidget {
             }
           },
           child: Column(
-            children: <Widget>[
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Логин'),
+            children: [
+              SizedBox(height: 20,),
+
+              Align(
+                child: Image.asset("assets/back_button.png", height: 50, width: 50,),
+                alignment: Alignment.centerLeft,
               ),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Пароль'),
-                obscureText: true,
+
+              SizedBox(height: 20,),
+
+              Header(text: "Рады видеть тебя снова!", textAlign: TextAlign.left,),
+
+              SizedBox(height: 20,),
+
+              Align(
+                child: SmallText(text: 'Email',),
+                alignment: Alignment.centerLeft,
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<AuthBloc>(context).add(
-                    SignInEvent(
-                      login: _usernameController.text,
-                      password: _passwordController.text,
-                    ),
-                  );
-                },
-                child: Text('Логин'),
+
+              SizedBox(height: 12,),
+
+              CustomInput(controller: _usernameController),
+
+              SizedBox(height: 20,),
+
+              Align(
+                child: SmallText(text: 'Пароль',),
+                alignment: Alignment.centerLeft,
               ),
-              TextButton(
-                onPressed: () {
+
+              SizedBox(height: 12,),
+
+              CustomInputPassword(controller: _passwordController),
+
+              SizedBox(height: 64),
+              
+              ButtonPrimary(
+                  text: "Вход",
+                  onPress: () {
+                    BlocProvider.of<AuthBloc>(context).add(
+                      SignInEvent(
+                        login: _usernameController.text,
+                        password: _passwordController.text,
+                      ),
+                    );
+                  },
+              ),
+
+              SizedBox(height: 12,),
+
+              CombinedText(
+                  mainText: "Еще нет аккаунта?",
+                  clickableText: "Регистрация",
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => RegisterScreen(),
+                      ),
+                    );
+                  },
+              ),
+
+              SizedBox(height: 6,),
+
+              CombinedText(
+                mainText: "Войти как",
+                clickableText: "тренер",
+                onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => BlocProvider.value(
-                        value: BlocProvider.of<AuthBloc>(context),
-                        child: RegisterScreen(),
-                      ),
+                      builder: (context) => RegisterScreen(),
                     ),
                   );
                 },
-                child: Text('Регистрация'),
               ),
+
             ],
           ),
         ),

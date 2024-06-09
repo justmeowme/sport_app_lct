@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Header extends StatelessWidget {
+class SmallText extends StatelessWidget {
   final String text;
   final TextAlign textAlign;
 
-  Header({
-    required this.text,
-    this.textAlign = TextAlign.center,  // Значение по умолчанию
-  });
+  SmallText({required this.text, this.textAlign = TextAlign.center,});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +12,8 @@ class Header extends StatelessWidget {
       text,
       style: const TextStyle(
         color: Color(0xFF202439),
-        fontSize: 32,
-        fontFamily: 'RussoOne',
+        fontSize: 18,
+        fontFamily: 'GilroyRegular',
       ),
       textAlign: textAlign,
     );
