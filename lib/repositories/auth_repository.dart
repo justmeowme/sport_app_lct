@@ -55,14 +55,31 @@ class AuthRepository {
   }
 
   Future<void> completeOnboarding(User user) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/signup'),
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${await AuthService().getToken()}'},
-      body: jsonEncode(user.toJson()),
+    final token = await AuthService().getToken();
+
+    final url = '$baseUrl/onboarding';
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final body = jsonEncode(user.toJson());
+
+    print('Request URL: $url');
+    print('Request Headers: $headers');
+    print('Request Body: $body');
+
+    final response = await http.put(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
     );
+
+    print('Response Status: ${response.statusCode}');
+    print('Response Body: ${response.body}');
 
     if (response.statusCode != 200) {
       throw Exception('Failed to complete onboarding: ${response.statusCode}');
     }
   }
+
 }
