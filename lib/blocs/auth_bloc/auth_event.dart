@@ -1,3 +1,5 @@
+import '../../models/user.dart';
+
 abstract class AuthEvent {}
 
 class SignInEvent extends AuthEvent {
@@ -15,3 +17,9 @@ class SignUpEvent extends AuthEvent {
 }
 
 class SignOutEvent extends AuthEvent {}
+
+class CompleteOnboardingEvent extends AuthEvent {
+  final User user;
+
+  CompleteOnboardingEvent({required this.user});
+}

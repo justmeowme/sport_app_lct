@@ -39,4 +39,30 @@ class AuthRepository {
       throw Exception('Failed to sign up');
     }
   }
+
+  Future<User> getUserFromToken(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return User.fromJson(data['claims']);
+    } else {
+      throw Exception('Failed to get user from token');
+    }
+  }
+
+  Future<void> completeOnboarding(User user) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/signup'),
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${await AuthService().getToken()}'},
+      body: jsonEncode(user.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to complete onboarding: ${response.statusCode}');
+    }
+  }
 }

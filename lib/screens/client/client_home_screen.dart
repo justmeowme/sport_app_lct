@@ -10,7 +10,7 @@ class ClientHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Главная'),
+        title: Text('Главная (Клиент)'),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),

@@ -83,6 +83,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                     );
                   },
+                isFullWidth: true,
               ),
 
               SizedBox(height: 12,),

@@ -11,6 +11,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInEvent>(_onSignIn);
     on<SignUpEvent>(_onSignUp);
     on<SignOutEvent>(_onSignOut);
+    on<CompleteOnboardingEvent>(_onCompleteOnboarding);
   }
 
   Future<void> _onSignIn(SignInEvent event, Emitter<AuthState> emit) async {
@@ -44,6 +45,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthInitial());
     } catch (e) {
       print('Sign out error: $e');
+      emit(AuthError(message: e.toString()));
+    }
+  }
+
+  Future<void> _onCompleteOnboarding(CompleteOnboardingEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      await authRepository.completeOnboarding(event.user);
+      emit(Authenticated(user: event.user));  // Убедитесь, что состояние изменяется на Authenticated
+    } catch (e) {
+      print('Complete onboarding error: $e');
       emit(AuthError(message: e.toString()));
     }
   }

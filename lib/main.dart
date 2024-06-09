@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/repositories/auth_repository.dart';
 import 'package:sport_app_lct/screens/auth/start_screen.dart';
-
 import 'blocs/auth_bloc/auth_bloc.dart';
+import 'models/user.dart';
 import 'screens/client/client_home_screen.dart';
+import 'screens/coach/coach_home_screen.dart';
 import 'services/auth/auth_service.dart';
 
 void main() {
@@ -27,10 +28,25 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasData && snapshot.data != null) {
-              print('Token found, navigating to ClientHomeScreen');
-              return ClientHomeScreen();
+              return FutureBuilder<User>(
+                future: AuthRepository().getUserFromToken(snapshot.data!),
+                builder: (context, userSnapshot) {
+                  if (userSnapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (userSnapshot.hasData && userSnapshot.data != null) {
+                    if (userSnapshot.data!.role == 0) {
+                      return ClientHomeScreen();
+                    } else if (userSnapshot.data!.role == 1) {
+                      return CoachHomeScreen();
+                    } else {
+                      return StartScreen();
+                    }
+                  } else {
+                    return StartScreen();
+                  }
+                },
+              );
             } else {
-              print('No token found, navigating to StartScreen');
               return StartScreen();
             }
           },

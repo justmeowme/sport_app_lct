@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class ButtonPrimary extends StatelessWidget {
   final String text;
   final VoidCallback onPress;
+  final bool isFullWidth;
 
-  ButtonPrimary({required this.text, required this.onPress});
+  ButtonPrimary({required this.text, required this.onPress, this.isFullWidth = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: isFullWidth ? double.infinity : null,
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

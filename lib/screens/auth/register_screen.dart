@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/screens/auth/login_screen.dart';
-import 'package:sport_app_lct/screens/client/client_home_screen.dart';
+import 'package:sport_app_lct/screens/onboarding/onboarding_step1.dart';
 import 'package:sport_app_lct/widgets/button_primary.dart';
 import 'package:sport_app_lct/widgets/custom_input_password.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
@@ -29,7 +29,7 @@ class RegisterScreen extends StatelessWidget {
               print('User authenticated: ${state.user}');
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => ClientHomeScreen(),
+                  builder: (context) => OnboardingStep1(user: state.user),
                 ),
               );
             } else if (state is AuthError) {
@@ -40,77 +40,58 @@ class RegisterScreen extends StatelessWidget {
           },
           child: Column(
             children: [
-
               SizedBox(height: 20,),
-
               Align(
                 child: Image.asset("assets/back_button.png", height: 50, width: 50,),
                 alignment: Alignment.centerLeft,
               ),
-
               SizedBox(height: 20,),
-
               Header(text: "Ты уже на шаг ближе к спорту!", textAlign: TextAlign.left,),
-
               SizedBox(height: 20,),
-
               Align(
                 child: SmallText(text: 'Email',),
                 alignment: Alignment.centerLeft,
               ),
-
               SizedBox(height: 12,),
-
               CustomInput(controller: _usernameController),
-
               SizedBox(height: 20,),
-
               Align(
                 child: SmallText(text: 'Имя',),
                 alignment: Alignment.centerLeft,
               ),
-
               SizedBox(height: 12,),
-
               CustomInput(controller: _nameController),
-
               SizedBox(height: 20,),
-
               Align(
                 child: SmallText(text: 'Пароль',),
                 alignment: Alignment.centerLeft,
               ),
-
               SizedBox(height: 12,),
-
               CustomInputPassword(controller: _passwordController),
-
               SizedBox(height: 20,),
-
               ButtonPrimary(
-                  text: "Регистрация",
-                  onPress: () {
-                    final login = _usernameController.text;
-                    final password = _passwordController.text;
+                text: "Регистрация",
+                onPress: () {
+                  final login = _usernameController.text;
+                  final password = _passwordController.text;
 
-                    if (login.isEmpty || password.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Вы не ввели логин или пароль')),
-                      );
-                      return;
-                    }
-
-                    BlocProvider.of<AuthBloc>(context).add(
-                      SignUpEvent(
-                        login: login,
-                        password: password,
-                      ),
+                  if (login.isEmpty || password.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Вы не ввели логин или пароль')),
                     );
-                  },
+                    return;
+                  }
+
+                  BlocProvider.of<AuthBloc>(context).add(
+                    SignUpEvent(
+                      login: login,
+                      password: password,
+                    ),
+                  );
+                },
+                isFullWidth: true,
               ),
-
               SizedBox(height: 6,),
-
               CombinedText(
                 mainText: "Уже есть аккаунт?",
                 clickableText: "Войти",
@@ -122,19 +103,15 @@ class RegisterScreen extends StatelessWidget {
                   );
                 },
               ),
-
               SizedBox(height: 12,),
-
               Text(
                 "Нажимая на кнопку регистрации, вы соглашаетесь с Правилами Использования и Политикой Конфиденциальности",
                 style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: 'GilroyRegular'
+                    fontSize: 12,
+                    fontFamily: 'GilroyRegular'
                 ),
                 textAlign: TextAlign.center,
               )
-
-
             ],
           ),
         ),
