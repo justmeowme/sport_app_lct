@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/repositories/auth_repository.dart';
+import 'package:sport_app_lct/repositories/user_repository.dart';
 import 'package:sport_app_lct/screens/auth/start_screen.dart';
 import 'blocs/auth_bloc/auth_bloc.dart';
 import 'models/user.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(authRepository: AuthRepository()),
+          create: (context) => AuthBloc(authRepository: AuthRepository(), userRepository: UserRepository()),
         ),
       ],
       child: MaterialApp(
