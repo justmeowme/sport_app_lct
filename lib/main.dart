@@ -8,9 +8,10 @@ import 'models/user.dart';
 import 'screens/client/client_home_screen.dart';
 import 'screens/coach/coach_home_screen.dart';
 import 'services/auth/auth_service.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

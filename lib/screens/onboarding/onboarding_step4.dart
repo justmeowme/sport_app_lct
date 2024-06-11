@@ -5,6 +5,12 @@ import 'package:sport_app_lct/blocs/auth_bloc/auth_event.dart';
 import 'package:sport_app_lct/blocs/auth_bloc/auth_state.dart';
 import 'package:sport_app_lct/screens/client/client_home_screen.dart';
 import 'package:sport_app_lct/models/user.dart';
+import 'package:sport_app_lct/widgets/custom_input_extendable.dart';
+
+import '../../widgets/button_primary.dart';
+import '../../widgets/form_widget.dart';
+import '../../widgets/header.dart';
+import '../../widgets/small_text.dart';
 
 class OnboardingStep4 extends StatefulWidget {
   final User user;
@@ -16,17 +22,16 @@ class OnboardingStep4 extends StatefulWidget {
 }
 
 class _OnboardingStep4State extends State<OnboardingStep4> {
-  final _formKey = GlobalKey<FormState>();
-  String? _healthConditions;
+  bool hasHealthConditions = false;
+
+  final TextEditingController _healthConditionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Onboarding Step 4'),
-      ),
+      backgroundColor: Colors.white,
       body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
+        listener: (context, state){
           if (state is Authenticated) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
@@ -38,46 +43,62 @@ class _OnboardingStep4State extends State<OnboardingStep4> {
               SnackBar(content: Text(state.message)),
             );
           }
-        },
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Health Conditions'),
-                  onSaved: (value) {
-                    _healthConditions = value;
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your health conditions';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      final updatedUser = widget.user.copyWith(
-                        healthConditions: _healthConditions,
-                      );
 
-                      BlocProvider.of<AuthBloc>(context).add(
-                        CompleteOnboardingEvent(user: updatedUser),
-                      );
+        },
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 44),
+              SmallText(text: "4/4", textColor: Color(0xFFED6929)),
+              SizedBox(height: 12),
+              Header(text: "Есть ли у тебя", textAlign: TextAlign.left),
+              Header(text: "травмы или", textAlign: TextAlign.left),
+              Header(text: "противопоказания?", textAlign: TextAlign.left),
+              SizedBox(height: 20),
+              FormWidget(
+                isMultiSelect: false,
+                isHorizontal: true,
+                items: [
+                  {'icon': null, 'text': 'Да'},
+                  {'icon': null, 'text': 'Нет'},
+                ],
+                onItemSelected: (index) {
+                  setState(() {
+                    hasHealthConditions = index == 0;
+                    if (!hasHealthConditions) {
+                      _healthConditionController.clear();
                     }
-                  },
-                  child: Text('Complete'),
+                  });
+                },
+              ),
+              SizedBox(height: 24),
+              if (hasHealthConditions)
+                CustomInputExtendable(
+                  controller: _healthConditionController,
+                  hintText: "Введите свои противопоказания и травмы",
                 ),
-              ],
-            ),
+              Spacer(),
+              ButtonPrimary(
+                text: "Завершить",
+                isFullWidth: true,
+                onPress: () {
+                  final updatedUser = widget.user.copyWith(
+                      healthConditions: (hasHealthConditions && _healthConditionController.text.isNotEmpty) ? "Противопоказания и травмы: ${_healthConditionController.text}" : "Нет противопоказаний и травм"
+                  );
+
+                  BlocProvider.of<AuthBloc>(context).add(
+                    CompleteOnboardingEvent(user: updatedUser),
+                  );
+                },
+              ),
+              SizedBox(height: 24),
+            ],
           ),
         ),
-      ),
+      )
     );
   }
 }

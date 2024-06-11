@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sport_app_lct/screens/auth/coach_login_screen.dart';
 import 'package:sport_app_lct/screens/client/client_home_screen.dart';
 import 'package:sport_app_lct/widgets/combined_text.dart';
 import 'package:sport_app_lct/widgets/button_primary.dart';
@@ -108,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => RegisterScreen(),
+                      builder: (context) => CoachLoginScreen(),
                     ),
                   );
                 },
