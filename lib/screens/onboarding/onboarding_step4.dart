@@ -22,7 +22,7 @@ class OnboardingStep4 extends StatefulWidget {
 }
 
 class _OnboardingStep4State extends State<OnboardingStep4> {
-  bool hasHealthConditions = false;
+  bool hasHealthConditions = true;
 
   final TextEditingController _healthConditionController = TextEditingController();
 

@@ -33,7 +33,7 @@ class _OnboardingStep3State extends State<OnboardingStep3> {
 
               SizedBox(height: 44),
 
-              SmallText(text: "2/4", textColor: Color(0xFFED6929),),
+              SmallText(text: "3/4", textColor: Color(0xFFED6929),),
 
               SizedBox(height: 12),
 
