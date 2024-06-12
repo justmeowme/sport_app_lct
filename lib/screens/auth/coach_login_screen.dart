@@ -56,8 +56,8 @@ class CoachLoginScreen extends StatelessWidget {
               text: "Войти",
               onPress: () {
                 BlocProvider.of<AuthBloc>(context).add(
-                  SignUpEvent(
-                    login: "coach_acc" + _codeController.text.toString(),
+                  SignInEvent(
+                    login: "coach_acc0",
                     password: "12345",
                   ),
                 );
