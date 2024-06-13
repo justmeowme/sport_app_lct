@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/repositories/auth_repository.dart';
+import 'package:sport_app_lct/repositories/course_repository.dart';
 import 'package:sport_app_lct/repositories/user_repository.dart';
 import 'package:sport_app_lct/screens/auth/start_screen.dart';
 import 'blocs/auth_bloc/auth_bloc.dart';
+import 'blocs/course_bloc/course_bloc.dart';
+import 'blocs/course_bloc/course_event.dart';
 import 'models/user.dart';
 import 'screens/client/client_home_screen.dart';
 import 'screens/coach/coach_home_screen.dart';
@@ -17,11 +20,18 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    final courseRepository = CourseRepository();
+    final userRepository = UserRepository();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(authRepository: AuthRepository(), userRepository: UserRepository()),
         ),
+        BlocProvider<CoursesBloc>(
+            create: (context) => CoursesBloc(courseRepository, userRepository)
+        )
       ],
       child: MaterialApp(
         home: FutureBuilder<String?>(

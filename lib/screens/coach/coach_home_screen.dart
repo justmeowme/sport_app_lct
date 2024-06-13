@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sport_app_lct/screens/courses/courses_list.dart';
+import 'package:sport_app_lct/screens/food_plans/food_plans_list.dart';
 import 'package:sport_app_lct/widgets/header.dart';
 import 'package:sport_app_lct/widgets/calendar_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -86,51 +88,73 @@ class CoachHomeScreen extends StatelessWidget {
                                     color: Color(0xFFEEEEEE)
                                 ),
 
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      DateFormat("dd/MM/yyyy", 'ru').format(selectedDay!).toString(),
-                                      style: TextStyle(
-                                          fontFamily: 'RussoOne',
-                                          fontSize: 18
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        DateFormat("dd/MM/yyyy", 'ru').format(selectedDay!).toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'RussoOne',
+                                            fontSize: 18
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: BlocBuilder<ScheduleBloc, ScheduleState>(
-                                        builder: (context, state) {
-                                          if (state is ScheduleLoading) {
-                                            return Center(child: CircularProgressIndicator());
-                                          } else if (state is ScheduleLoaded) {
-                                            return ListView.builder(
-                                              itemCount: state.schedules.length,
-                                              itemBuilder: (context, index) {
-                                                final schedule = state.schedules[index];
-                                                return ScheduleWidget(
-                                                  schedule: schedule,
-                                                  forWho: 'client', // или 'coach' в зависимости от логики вашего приложения
-                                                );
-                                              },
-                                            );
-                                          } else if (state is ScheduleError) {
-                                            return Center(child: Text("Ошибка: ${state.error}"));
-                                          } else {
-                                            return Container(); // Пустой контейнер для других состояний
-                                          }
-                                        },
+                                      Expanded(
+                                        child: BlocBuilder<ScheduleBloc, ScheduleState>(
+                                          builder: (context, state) {
+                                            if (state is ScheduleLoading) {
+                                              return Center(child: CircularProgressIndicator());
+                                            } else if (state is ScheduleLoaded) {
+                                              return ListView.builder(
+                                                itemCount: state.schedules.length,
+                                                itemBuilder: (context, index) {
+                                                  final schedule = state.schedules[index];
+                                                  return ScheduleWidget(
+                                                    schedule: schedule,
+                                                    forWho: 'client',
+                                                  );
+                                                },
+                                              );
+                                            } else if (state is ScheduleError) {
+                                              return Center(child: Text("Ошибка: ${state.error}"));
+                                            } else {
+                                              return Container();
+                                            }
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 )
                               ),
 
                               SizedBox(height: 12,),
 
-                              Image.asset("assets/courses_coach.png", width: MediaQuery.of(context).size.width - 40,),
+                              GestureDetector(
+                                child: Image.asset("assets/courses_coach.png", width: MediaQuery.of(context).size.width - 40,),
+                                onTap: (){
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => CoursesList(),
+                                    ),
+                                  );
+                                }
+                              ),
 
                               SizedBox(height: 12,),
 
-                              Image.asset("assets/food_coach.png", width: MediaQuery.of(context).size.width - 40,)
+                              GestureDetector(
+                                  child: Image.asset("assets/food_coach.png", width: MediaQuery.of(context).size.width - 40,),
+                                  onTap: (){
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) => FoodPlansList(),
+                                      ),
+                                    );
+                                  }
+                              ),
+
                             ],
                           ),
                         )

@@ -34,4 +34,41 @@ class UserRepository {
     }
   }
 
+  Future<User> getUserById(int id) async {
+    final token = await AuthService().getToken();
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(
+      headers: headers,
+      Uri.parse('$baseUrl/$id'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return User.fromJson(data['claims']);
+    } else {
+      throw Exception('Failed to get user from id');
+    }
+  }
+
+  Future<User> getCurrentUser() async {
+    final token = await AuthService().getToken();
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final response = await http.get(
+      headers: headers,
+      Uri.parse('$baseUrl'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return User.fromJson(data['claims']);
+    } else {
+      throw Exception('Failed to get current user');
+    }
+  }
 }

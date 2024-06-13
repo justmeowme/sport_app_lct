@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sport_app_lct/repositories/user_repository.dart';
 
 import '../models/shedule.dart';
+import '../models/user.dart';
 
 class ScheduleWidget extends StatefulWidget {
   final Shedule schedule;
@@ -22,14 +24,16 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final startTimeFormatted = widget.schedule.startTime;
+    final userRepository = UserRepository();
+    DateTime dateTime = DateTime.parse(widget.schedule.startTime);
+    String startTimeFormatted = DateFormat('HH:mm').format(dateTime);
     final displayId = widget.forWho == 'client' ? widget.schedule.coachId : widget.schedule.clientId;
-    final displayText = '${widget.schedule.type} $displayId';
+    final displayText = "Тренировка с id" + displayId.toString();
 
     return GestureDetector(
       onTap: () => _toggleReminder(context),
       child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 10),
+        padding: EdgeInsets.only(top: 0, bottom: 10),
         child: Container(
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -38,7 +42,14 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
           ),
           child: Row(
             children: [
-              Text(startTimeFormatted, style: TextStyle(fontSize: 18)),
+              Text(
+                  startTimeFormatted,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'GilroyMedium',
+                    fontWeight: FontWeight.bold
+                  )
+              ),
               SizedBox(width: 16),
               Expanded(child: Text(displayText, style: TextStyle(fontSize: 18))),
               SizedBox(width: 16),
