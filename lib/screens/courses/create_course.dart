@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/models/course.dart';
@@ -121,6 +123,8 @@ class _CreateCourseState extends State<CreateCourse> {
                     trainerId: 0,
                     classes: [],
                   );
+                  print("couse from screen");
+                  print(jsonEncode(course.toJson()));
                   BlocProvider.of<CoursesBloc>(context).add(CreateCourseEvent(course));
                 },
                 isFullWidth: true,

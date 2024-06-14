@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sport_app_lct/models/course.dart';
 import 'package:sport_app_lct/screens/coach/coach_home_screen.dart';
 import 'package:sport_app_lct/screens/courses/create_course.dart';
 import 'package:sport_app_lct/widgets/button_primary.dart';
 
+import '../../widgets/course_widget.dart';
 import '../../widgets/header.dart';
+import '../coach/coach_main_screen.dart';
 
 class CoursesList extends StatelessWidget {
 
@@ -25,7 +28,7 @@ class CoursesList extends StatelessWidget {
                   onTap: (){
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => CoachHomeScreen(),
+                        builder: (context) => CoachMainScreen(),
                       ),
                     );
                   },
@@ -38,8 +41,21 @@ class CoursesList extends StatelessWidget {
               ],
             ),
             Spacer(),
-            Center(
-              child: Image.asset("assets/no_courses.png", width: MediaQuery.of(context).size.width / 3 * 2,),
+            // Center(
+            //   child: Image.asset("assets/no_courses.png", width: MediaQuery.of(context).size.width / 3 * 2,),
+            // ),
+            CourseWidget(
+              course: Course(
+                id: 1,
+                title: "Курс “Сделай сильные руки за месяц”",
+                description: "Сильные руки - основа любой тренировки и еще какой-то текст, который почему-то должен здесь быть",
+                rating: 4,
+                trainerId: 12,
+                participantsCount: 30,
+                difficulty: "Средний",
+                difficultyNumeric: 2,
+                classes: [],
+              ),
             ),
             Spacer(),
             ButtonPrimary(

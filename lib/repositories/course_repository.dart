@@ -5,7 +5,7 @@ import '../models/course.dart';
 import '../services/auth/auth_service.dart';
 
 class CourseRepository {
-  final String baseUrl = 'http://sport-plus.sorewa.ru:8080';
+  final String baseUrl = 'http://sport-plus.sorewa.ru:8080/v1';
 
   Future<List<Course>> getCourses() async {
     final token = await AuthService().getToken();
@@ -13,7 +13,7 @@ class CourseRepository {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    final response = await http.get(Uri.parse('$baseUrl/v1/course'), headers: headers);
+    final response = await http.get(Uri.parse('$baseUrl/course'), headers: headers);
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body)['courses'];
@@ -30,7 +30,7 @@ class CourseRepository {
       'Authorization': 'Bearer $token',
     };
 
-    final response = await http.get(Uri.parse('$baseUrl/v1/course/$courseId'), headers: headers);
+    final response = await http.get(Uri.parse('$baseUrl/course/$courseId'), headers: headers);
 
     if (response.statusCode == 200) {
       return Course.fromJson(jsonDecode(response.body));
@@ -41,19 +41,22 @@ class CourseRepository {
 
   Future<Map<String, dynamic>> createCourse(Course course) async {
     print("HERE IS COURSE");
+    final token = await AuthService().getToken();
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
     print(jsonEncode(course.toJson()));
     final response = await http.post(
-      Uri.parse('$baseUrl/courses'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      Uri.parse('$baseUrl/course'),
+      headers: headers,
       body: jsonEncode(course.toJson()),
     );
 
     if (response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to create course.');
+      throw Exception('Failed to create course. ${response.body}');
     }
   }
 

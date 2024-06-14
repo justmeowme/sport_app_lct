@@ -28,14 +28,16 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   void _onCreateCourseEvent(CreateCourseEvent event, Emitter<CoursesState> emit) async {
     try {
       final currentUser = await userRepository.getCurrentUser();
-      final course = event.course.copyWith(trainerId: currentUser.id);
+      print("USER ID IS ${currentUser.id}");
+      final course = event.course.copyWith(trainerId: 5);
       await courseRepository.createCourse(course);
       emit(CourseCreationSuccess());
       add(LoadCourses());
     } catch (e) {
-      emit(CoursesError("Failed to create course"));
       print("error create is ${e}");
       print("COURSE IS HERE");
+      emit(CoursesError("Failed to create course"));
+
     }
   }
 }

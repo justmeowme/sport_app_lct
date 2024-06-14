@@ -4,6 +4,7 @@ import 'package:sport_app_lct/repositories/auth_repository.dart';
 import 'package:sport_app_lct/repositories/course_repository.dart';
 import 'package:sport_app_lct/repositories/user_repository.dart';
 import 'package:sport_app_lct/screens/auth/start_screen.dart';
+import 'package:sport_app_lct/screens/coach/coach_main_screen.dart';
 import 'blocs/auth_bloc/auth_bloc.dart';
 import 'blocs/course_bloc/course_bloc.dart';
 import 'blocs/course_bloc/course_event.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
                     if (userSnapshot.data!.role == 0) {
                       return ClientHomeScreen();
                     } else if (userSnapshot.data!.role == 1) {
-                      return CoachHomeScreen();
+                      return CoachMainScreen();
                     } else {
                       return StartScreen();
                     }
