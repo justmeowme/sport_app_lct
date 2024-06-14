@@ -27,8 +27,8 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
     final userRepository = UserRepository();
     DateTime dateTime = DateTime.parse(widget.schedule.startTime);
     String startTimeFormatted = DateFormat('HH:mm').format(dateTime);
-    final displayId = widget.forWho == 'client' ? widget.schedule.coachId : widget.schedule.clientId;
-    final displayText = "Тренировка с id" + displayId.toString();
+    final displayUser = widget.forWho == 'client' ? widget.schedule.coach : widget.schedule.client;
+    final displayText = "Тренировка с " + (displayUser != null ? displayUser.login : '');
 
     return GestureDetector(
       onTap: () => _toggleReminder(context),

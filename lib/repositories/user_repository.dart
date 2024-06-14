@@ -64,9 +64,11 @@ class UserRepository {
       Uri.parse('$baseUrl'),
     );
 
+    print(response.body);
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return User.fromJson(data['claims']);
+      return User.fromJson(data['user']);
     } else {
       throw Exception('Failed to get current user');
     }

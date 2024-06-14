@@ -9,7 +9,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   final CourseRepository courseRepository;
   final UserRepository userRepository;
 
-  CoursesBloc(this.courseRepository, this.userRepository) : super(CoursesLoading()) {
+  CoursesBloc({required this.courseRepository, required this.userRepository}) : super(CoursesLoading()) {
     on<LoadCourses>(_onLoadCourses);
     on<CreateCourseEvent>(_onCreateCourseEvent);
   }
@@ -28,8 +28,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   void _onCreateCourseEvent(CreateCourseEvent event, Emitter<CoursesState> emit) async {
     try {
       final currentUser = await userRepository.getCurrentUser();
-      print("USER ID IS ${currentUser.id}");
-      final course = event.course.copyWith(trainerId: 5);
+      final course = event.course.copyWith(trainerId: currentUser.id);
       await courseRepository.createCourse(course);
       emit(CourseCreationSuccess());
       add(LoadCourses());

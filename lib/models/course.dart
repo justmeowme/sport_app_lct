@@ -30,6 +30,7 @@ class Course {
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
+    print(json);
     return Course(
       id: json['id'],
       title: json['title'],
@@ -42,7 +43,7 @@ class Course {
       rating: json['rating'],
       requiredTools: json['required_tools'],
       trainerId: json['trainer_id'],
-      classes: (json['classes'] as List).map((i) => Class.fromJson(i)).toList(),
+      classes: json['classes'] != null ? (json['classes'] as List).map((i) => Class.fromJson(i)).toList() : <Class>[],
     );
   }
 

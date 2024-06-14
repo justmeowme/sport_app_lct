@@ -1,3 +1,5 @@
+import 'package:sport_app_lct/models/user.dart';
+
 class Shedule {
   final int coachId;
   final int clientId;
@@ -8,6 +10,8 @@ class Shedule {
   final bool reminderCoach;
   final bool reminderClient;
   final bool isGlobal;
+  final User? coach;
+  final User? client;
 
   Shedule({
     required this.coachId,
@@ -19,6 +23,8 @@ class Shedule {
     this.reminderCoach = false,
     this.reminderClient = false,
     this.isGlobal = false,
+    this.client = null,
+    this.coach = null,
   });
 
   factory Shedule.fromJson(Map<String, dynamic> json) {
@@ -32,6 +38,8 @@ class Shedule {
       reminderCoach: json['reminder_coach'] ?? false,
       reminderClient: json['reminder_client'] ?? false,
       isGlobal: json['is_global'] ?? false,
+      client: json['client'] != null ? User.fromJson(json['client']) : null,
+      coach: json['coach'] != null ? User.fromJson(json['coach']) : null,
     );
   }
 

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(authRepository: AuthRepository(), userRepository: UserRepository()),
         ),
         BlocProvider<CoursesBloc>(
-            create: (context) => CoursesBloc(courseRepository, userRepository)
+            create: (context) => CoursesBloc( courseRepository: courseRepository, userRepository: userRepository)
         )
       ],
       child: MaterialApp(

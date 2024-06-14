@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sport_app_lct/models/shedule.dart';
 import 'package:sport_app_lct/screens/courses/courses_list.dart';
 import 'package:sport_app_lct/widgets/bottom_nav.dart';
 import 'package:sport_app_lct/widgets/header.dart';
@@ -140,20 +141,28 @@ class CoachHomeScreen extends StatelessWidget {
                                   if (scheduleState is ScheduleLoading) {
                                     return Center(child: CircularProgressIndicator());
                                   } else if (scheduleState is ScheduleLoaded) {
+                                    final selectedDaySchedules = selectedDay == null ? <Shedule>[] : scheduleState.schedules.where((schedule) {
+                                      final scheduleDate = DateTime.parse(schedule.date);
+                                      return scheduleDate.year == selectedDay.year &&
+                                          scheduleDate.month == selectedDay.month &&
+                                          scheduleDate.day == selectedDay.day &&
+                                          scheduleDate.isAfter(DateTime.now().subtract(const Duration(hours: 1)));
+                                    }).toList();
+
                                     return Container(
                                       child: Container(
                                         width: MediaQuery.of(context).size.width - 40,
                                         height: 150,
-                                        child: SingleChildScrollView(
+                                        child: selectedDaySchedules.isEmpty ? Center(child: Text("Сегодня у вас нет тренировок")) : SingleChildScrollView(
                                           child: Column(
                                             children: [
                                               ListView.builder(
                                                 shrinkWrap: true,
                                                 physics: NeverScrollableScrollPhysics(),
-                                                itemCount: scheduleState.schedules.length,
+                                                itemCount: selectedDaySchedules.length,
                                                 itemBuilder: (context, index) {
                                                   return ScheduleWidget(
-                                                    schedule: scheduleState.schedules[index],
+                                                    schedule: selectedDaySchedules[index],
                                                     forWho: 'coach',
                                                   );
                                                 },

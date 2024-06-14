@@ -7,7 +7,6 @@ class ScheduleRepository {
   final String baseUrl = 'http://sport-plus.sorewa.ru:8080/v1/calendar';
 
   Future<List<Shedule>> getSchedules() async {
-    print("started");
     final token = await AuthService().getToken();
     final headers = {
       'Content-Type': 'application/json',
@@ -18,7 +17,8 @@ class ScheduleRepository {
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      return data.map((json) => Shedule.fromJson(json)).toList();
+      final List<Shedule> schedules = data.map((json) => Shedule.fromJson(json)).toList();
+      return schedules;
     } else {
       throw Exception('Failed to load schedules Error: ${response.toString()}');
     }

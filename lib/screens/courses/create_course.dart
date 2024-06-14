@@ -13,19 +13,6 @@ import '../../blocs/course_bloc/course_state.dart';
 import '../../widgets/button_primary.dart';
 import '../../widgets/form_widget.dart';
 import '../../widgets/header.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sport_app_lct/models/course.dart';
-import 'package:sport_app_lct/screens/courses/courses_list.dart';
-import 'package:sport_app_lct/widgets/custom_input.dart';
-import 'package:sport_app_lct/widgets/custom_input_extendable.dart';
-import 'package:sport_app_lct/widgets/description.dart';
-import '../../blocs/course_bloc/course_bloc.dart';
-import '../../blocs/course_bloc/course_event.dart';
-import '../../blocs/course_bloc/course_state.dart';
-import '../../widgets/button_primary.dart';
-import '../../widgets/form_widget.dart';
-import '../../widgets/header.dart';
 
 class CreateCourse extends StatefulWidget {
   @override
@@ -123,8 +110,6 @@ class _CreateCourseState extends State<CreateCourse> {
                     trainerId: 0,
                     classes: [],
                   );
-                  print("couse from screen");
-                  print(jsonEncode(course.toJson()));
                   BlocProvider.of<CoursesBloc>(context).add(CreateCourseEvent(course));
                 },
                 isFullWidth: true,

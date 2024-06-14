@@ -1,7 +1,7 @@
 class User {
   final int? id;
   final String? name;
-  final String? login;
+  final String login;
   final String? password;
   final String? gender;
   final int? height;
