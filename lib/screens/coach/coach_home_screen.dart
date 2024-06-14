@@ -17,7 +17,6 @@ import '../../widgets/shedule_widget.dart';
 class CoachHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final scheduleRepository = ScheduleRepository();
     final scheduleBloc = ScheduleBloc(scheduleRepository: scheduleRepository);
     scheduleBloc.add(LoadSchedules());
@@ -26,7 +25,6 @@ class CoachHomeScreen extends StatelessWidget {
     final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
     final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
-    // Function to create text style
     TextStyle _createTextStyle(Color color, String fontFamily) {
       return TextStyle(
         color: color,
@@ -38,7 +36,6 @@ class CoachHomeScreen extends StatelessWidget {
     final outsideTextStyle = _createTextStyle(Color(0x50FFFFFF), 'GilroyMedium');
     final todayTextStyle = _createTextStyle(Color(0xFF202439), 'GilroyMedium');
     final selectedTextStyle = _createTextStyle(Colors.white, 'GilroyMedium').copyWith(fontSize: 16);
-
 
     return MultiBlocProvider(
       providers: [
@@ -54,11 +51,8 @@ class CoachHomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 56),
-
                   Header(text: DateFormat("yMMM", 'ru').format(kToday).toString(), textColor: Colors.white),
-
                   SizedBox(height: 12),
-
                   TableCalendar(
                     daysOfWeekStyle: DaysOfWeekStyle(
                       weekdayStyle: _createTextStyle(Colors.white, 'RussoOne'),
@@ -99,9 +93,7 @@ class CoachHomeScreen extends StatelessWidget {
                       context.read<CalendarBloc>().add(PageChangedEvent(focusedDay: focusedDay));
                     },
                   ),
-
                   SizedBox(height: 20),
-
                   Container(
                     child: GestureDetector(
                       onVerticalDragUpdate: (details) {
@@ -125,26 +117,40 @@ class CoachHomeScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               SizedBox(height: 10),
-
                               Image.asset("assets/swipe_rect.png", width: 60),
-
                               SizedBox(height: 12),
-
-                              Container(
-                                width: MediaQuery.of(context).size.width - 40,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                                  color: Color(0xFFEEEEEE),
-                                ),
+                              BlocBuilder<ScheduleBloc, ScheduleState>(
+                                builder: (context, scheduleState) {
+                                  if (scheduleState is ScheduleLoading) {
+                                    return Center(child: CircularProgressIndicator());
+                                  } else if (scheduleState is ScheduleLoaded) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width - 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                                        color: Color(0xFFEEEEEE),
+                                      ),
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: scheduleState.schedules.length,
+                                        itemBuilder: (context, index) {
+                                          return ScheduleWidget(
+                                            schedule: scheduleState.schedules[index],
+                                            forWho: 'coach',
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (scheduleState is ScheduleError) {
+                                    return Center(child: Text('Ошибка загрузки расписания'));
+                                  } else {
+                                    return Container();
+                                  }
+                                },
                               ),
-
                               SizedBox(height: 12),
-
                               Image.asset("assets/courses_coach.png", width: MediaQuery.of(context).size.width - 40),
-
                               SizedBox(height: 12),
-
                               Image.asset("assets/food_coach.png", width: MediaQuery.of(context).size.width - 40),
                             ],
                           ),
