@@ -1,5 +1,6 @@
 class User {
   final int? id;
+  final String? name;
   final String? login;
   final String? password;
   final String? gender;
@@ -17,6 +18,7 @@ class User {
     required this.id,
     required this.login,
     required this.password,
+    this.name = "Без Имени",
     this.gender = '',
     this.height = 0,
     this.weight = 0,

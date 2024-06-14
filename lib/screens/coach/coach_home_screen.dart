@@ -45,8 +45,11 @@ class CoachHomeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Color(0xFF202439),
         body: BlocBuilder<CalendarBloc, CalendarState>(
-          builder: (context, state) {
-            final calendarFormat = state is CalendarUpdated ? state.calendarFormat : CalendarFormat.week;
+        builder: (context, state) {
+          final focusedDay = state is CalendarUpdated ? state.focusedDay : DateTime.now();
+          final selectedDay = state is CalendarUpdated ? state.selectedDay : DateTime.now();
+
+          final calendarFormat = state is CalendarUpdated ? state.calendarFormat : CalendarFormat.week;
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -125,20 +128,38 @@ class CoachHomeScreen extends StatelessWidget {
                                     return Center(child: CircularProgressIndicator());
                                   } else if (scheduleState is ScheduleLoaded) {
                                     return Container(
-                                      width: MediaQuery.of(context).size.width - 40,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                                        color: Color(0xFFEEEEEE),
-                                      ),
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: scheduleState.schedules.length,
-                                        itemBuilder: (context, index) {
-                                          return ScheduleWidget(
-                                            schedule: scheduleState.schedules[index],
-                                            forWho: 'coach',
-                                          );
-                                        },
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width - 40,
+                                        height: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                                          color: Color(0xFFEEEEEE),
+                                        ),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                DateFormat("dd/MM/yyyy", 'ru').format(selectedDay!).toString(),
+                                                style: TextStyle(
+                                                    fontFamily: 'RussoOne',
+                                                    fontSize: 18
+                                                ),
+                                              ),
+
+                                              ListView.builder(
+                                                shrinkWrap: true,
+                                                physics: NeverScrollableScrollPhysics(),
+                                                itemCount: scheduleState.schedules.length,
+                                                itemBuilder: (context, index) {
+                                                  return ScheduleWidget(
+                                                    schedule: scheduleState.schedules[index],
+                                                    forWho: 'coach',
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          )
+                                        )
                                       ),
                                     );
                                   } else if (scheduleState is ScheduleError) {

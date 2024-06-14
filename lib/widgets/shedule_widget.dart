@@ -35,7 +35,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
       child: Padding(
         padding: EdgeInsets.only(top: 0, bottom: 10),
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
           decoration: BoxDecoration(
             color: Color(0xFFD6D8DB),
             borderRadius: BorderRadius.circular(16),
