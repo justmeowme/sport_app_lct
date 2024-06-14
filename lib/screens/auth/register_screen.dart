@@ -74,6 +74,7 @@ class RegisterScreen extends StatelessWidget {
                 onPress: () {
                   final login = _usernameController.text;
                   final password = _passwordController.text;
+                  final name = _nameController.text;
 
                   if (login.isEmpty || password.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -86,6 +87,7 @@ class RegisterScreen extends StatelessWidget {
                     SignUpEvent(
                       login: login,
                       password: password,
+                      name: name,
                     ),
                   );
                 },

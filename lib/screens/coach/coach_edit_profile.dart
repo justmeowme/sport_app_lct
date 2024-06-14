@@ -25,11 +25,15 @@ class CoachEditProfile extends StatelessWidget {
           children: [
             Header(text: "Редактировать профиль", textAlign: TextAlign.left,),
 
+            SizedBox(height: 12,),
+
             CustomInput(
               controller: _nameController,
               isDescription: true,
               description: "Имя",
             ),
+
+            SizedBox(height: 12,),
 
             CustomInputAge(
               controller: _ageController,
@@ -37,11 +41,15 @@ class CoachEditProfile extends StatelessWidget {
               description: "Возраст",
             ),
 
+            SizedBox(height: 12,),
+
             CustomInputExtendable(
               controller: _achivementsController,
               isDescription: true,
               description: "О себе",
             ),
+
+            SizedBox(height: 12,),
 
             CustomInputExtendable(
               controller: _aboutYourselfController,

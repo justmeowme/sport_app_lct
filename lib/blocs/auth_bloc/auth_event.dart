@@ -12,8 +12,9 @@ class SignInEvent extends AuthEvent {
 class SignUpEvent extends AuthEvent {
   final String login;
   final String password;
+  final String name;
 
-  SignUpEvent({required this.login, required this.password});
+  SignUpEvent({required this.login, required this.password, this.name = "Без Имени"});
 }
 
 class SignOutEvent extends AuthEvent {}
