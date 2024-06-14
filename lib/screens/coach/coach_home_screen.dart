@@ -122,6 +122,18 @@ class CoachHomeScreen extends StatelessWidget {
                               SizedBox(height: 10),
                               Image.asset("assets/swipe_rect.png", width: 60),
                               SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    DateFormat("dd/MM/yyyy", 'ru').format(selectedDay!).toString(),
+                                    style: TextStyle(
+                                        fontFamily: 'RussoOne',
+                                        fontSize: 18
+                                    ),
+                                  ),
+                                ],
+                              ),
                               BlocBuilder<ScheduleBloc, ScheduleState>(
                                 builder: (context, scheduleState) {
                                   if (scheduleState is ScheduleLoading) {
@@ -131,21 +143,9 @@ class CoachHomeScreen extends StatelessWidget {
                                       child: Container(
                                         width: MediaQuery.of(context).size.width - 40,
                                         height: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(16)),
-                                          color: Color(0xFFEEEEEE),
-                                        ),
                                         child: SingleChildScrollView(
                                           child: Column(
                                             children: [
-                                              Text(
-                                                DateFormat("dd/MM/yyyy", 'ru').format(selectedDay!).toString(),
-                                                style: TextStyle(
-                                                    fontFamily: 'RussoOne',
-                                                    fontSize: 18
-                                                ),
-                                              ),
-
                                               ListView.builder(
                                                 shrinkWrap: true,
                                                 physics: NeverScrollableScrollPhysics(),
@@ -170,7 +170,14 @@ class CoachHomeScreen extends StatelessWidget {
                                 },
                               ),
                               SizedBox(height: 12),
-                              Image.asset("assets/courses_coach.png", width: MediaQuery.of(context).size.width - 40),
+
+                              GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Image.asset("assets/courses_coach.png", width: MediaQuery.of(context).size.width - 40),
+                              ),
+
                               SizedBox(height: 12),
                               Image.asset("assets/food_coach.png", width: MediaQuery.of(context).size.width - 40),
                             ],
