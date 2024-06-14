@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:sport_app_lct/screens/coach/coach_clients_screen.dart';
 import 'package:sport_app_lct/screens/coach/coach_portfolio_screen.dart';
 
 import '../../models/rive_model.dart';
@@ -26,6 +27,10 @@ List<RiveModel> bottomNavItems = [
       stateMachineName: "HOME_interactivity"),
   RiveModel(
       src: "assets/animated_icons.riv",
+      artboard: "SEARCH",
+      stateMachineName: "SEARCH_Interactivity"),
+  RiveModel(
+      src: "assets/animated_icons.riv",
       artboard: "USER",
       stateMachineName: "USER_Interactivity"),
 ];
@@ -38,6 +43,7 @@ class _MainScreenState extends State<CoachMainScreen> {
   final List<Widget> pages = [
     CoachChatScreen(),
     CoachHomeScreen(),
+    CoachClientsScreen(),
     CoachPortfolioScreen(),
   ];
 

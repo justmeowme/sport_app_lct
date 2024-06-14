@@ -126,7 +126,7 @@ class CoachHomeScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    DateFormat("dd/MM/yyyy", 'ru').format(selectedDay!).toString(),
+                                    DateFormat("dd/MM/yyyy", 'ru').format(selectedDay != null ? selectedDay : DateTime.now()).toString(),
                                     style: TextStyle(
                                         fontFamily: 'RussoOne',
                                         fontSize: 18
