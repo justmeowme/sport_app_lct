@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sport_app_lct/screens/courses/courses_list.dart';
 import 'package:sport_app_lct/widgets/bottom_nav.dart';
 import 'package:sport_app_lct/widgets/header.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -173,7 +174,10 @@ class CoachHomeScreen extends StatelessWidget {
 
                               GestureDetector(
                                 onTap: (){
-
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CoursesList()),
+                                  );
                                 },
                                 child: Image.asset("assets/courses_coach.png", width: MediaQuery.of(context).size.width - 40),
                               ),
