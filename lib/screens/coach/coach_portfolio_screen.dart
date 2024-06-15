@@ -61,16 +61,13 @@ class CoachPortfolioScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              final picker = ImagePicker();
+                              final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-                              getImage(ImageSource.camera);
-
-                              // final picker = ImagePicker();
-                              // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-                              //
-                              // if (pickedFile != null) {
-                              //   BlocProvider.of<UserBloc>(context).add(UploadUserIconEvent(image: File(pickedFile.path)));
-                              // }
+                              if (pickedFile != null) {
+                                BlocProvider.of<UserBloc>(context).add(UploadUserIconEvent(image: File(pickedFile.path)));
+                              }
                             },
                             child: Stack(
                               children: [
