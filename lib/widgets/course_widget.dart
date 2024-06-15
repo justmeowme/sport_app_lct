@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sport_app_lct/models/course.dart';
+import 'package:sport_app_lct/screens/courses/edit_course.dart';
 import 'package:sport_app_lct/widgets/description.dart';
 import 'package:sport_app_lct/widgets/header.dart';
 
@@ -34,7 +35,16 @@ class CourseWidget extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                Image.asset("assets/edit.png", height: 24,)
+                GestureDetector(
+                  child: Image.asset("assets/edit.png", height: 24,),
+                  onTap: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EditCourse(course: course),
+                      ),
+                    );
+                  },
+                )
               ],
             ),
             SizedBox(height: 12,),

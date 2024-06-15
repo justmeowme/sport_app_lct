@@ -42,7 +42,12 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: 20,),
 
               Align(
-                child: Image.asset("assets/back_button.png", height: 50, width: 50,),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset("assets/back_button.png", height: 32),
+                ),
                 alignment: Alignment.centerLeft,
               ),
 
