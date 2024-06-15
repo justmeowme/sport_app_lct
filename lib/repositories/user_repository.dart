@@ -85,7 +85,7 @@ class UserRepository {
       Uri.parse('$baseUrl/upload/icon'),
     );
     request.headers.addAll(headers);
-    request.files.add(await http.MultipartFile.fromPath('file', image.path));
+    request.files.add(await http.MultipartFile.fromPath('icon', image.path));
 
     final response = await request.send();
 
