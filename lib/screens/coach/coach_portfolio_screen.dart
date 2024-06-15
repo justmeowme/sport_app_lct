@@ -71,10 +71,20 @@ class CoachPortfolioScreen extends StatelessWidget {
                             },
                             child: Stack(
                               children: [
-                                Image.asset(
-                                  user.icon != null && user.icon!.isNotEmpty ? user.icon! : "assets/coach_no_photo.png",
-                                  width: MediaQuery.of(context).size.width - 40,
-                                ),
+                                if (user.icon != null && user.icon!.isNotEmpty)
+                                  Image.network(
+                                    height: 300,
+                                    width: MediaQuery.of(context).size.width - 40,
+                                    fit: BoxFit.contain,
+                                    '${user.icon}'
+                                  ),
+                                if (user.icon == null || user.icon!.isEmpty)
+                                  Image.asset(
+                                    "assets/coach_no_photo.png",
+                                    width: MediaQuery.of(context).size.width - 40,
+                                  ),
+
+
                                 Positioned(
                                   bottom: 10,
                                   left: 10,
