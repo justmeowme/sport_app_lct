@@ -75,7 +75,7 @@ class CourseWidget extends StatelessWidget {
 
                 SizedBox(width: 32,),
 
-                Image.asset("assets/difficulty${course.difficultyNumeric}.png", height: 16,),
+                Image.asset("assets/difficulty1.png", height: 16,),
                 SizedBox(width: 4,),
                 Text(
                   course.difficulty.toString(),
