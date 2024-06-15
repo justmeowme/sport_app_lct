@@ -1,5 +1,6 @@
 class User {
   final int? id;
+  final String? icon;
   final String? name;
   final String login;
   final String? password;
@@ -21,6 +22,7 @@ class User {
 
   User({
     this.about,
+    this.icon,
     this.achivements,
     this.water,
     this.trains,
@@ -44,6 +46,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
+      icon: json['icon'],
       login: json['login'],
       password: json['password'],
       gender: json['gender'] ?? '',
@@ -69,6 +72,7 @@ class User {
     return {
       'id': id,
       'login': login,
+      'icon': icon,
       'password': password,
       'gender': gender,
       'height': height,
@@ -92,6 +96,7 @@ class User {
   User copyWith({
     int? id,
     String? name,
+    String? icon,
     String? login,
     String? password,
     String? gender,
@@ -115,6 +120,7 @@ class User {
       id: id ?? this.id,
       login: login ?? this.login,
       password: password ?? this.password,
+      icon: icon ?? this.icon,
       gender: gender ?? this.gender,
       height: height ?? this.height,
       weight: weight ?? this.weight,

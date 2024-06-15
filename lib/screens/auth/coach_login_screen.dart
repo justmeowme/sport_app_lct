@@ -9,6 +9,8 @@ import 'package:sport_app_lct/widgets/small_text.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../blocs/auth_bloc/auth_event.dart';
 import '../../blocs/auth_bloc/auth_state.dart';
+import '../client/client_home_screen.dart';
+import '../client/client_main_screen.dart';
 import '../coach/coach_main_screen.dart';
 
 class CoachLoginScreen extends StatelessWidget {
@@ -25,7 +27,7 @@ class CoachLoginScreen extends StatelessWidget {
             print('User authenticated: ${state.user}');
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => CoachMainScreen(),
+                builder: (context) => ClientHomeScreen(),
               ),
             );
           } else if (state is AuthError) {
