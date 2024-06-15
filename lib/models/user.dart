@@ -17,6 +17,7 @@ class User {
   final String? achivements;
   final List<dynamic>? water;
   final List<dynamic>? trains;
+  final int? age;
 
   User({
     this.about,
@@ -37,6 +38,7 @@ class User {
     this.gymName = '',
     this.healthConditions = '',
     this.role = 0,
+    this.age,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -55,7 +57,11 @@ class User {
       healthConditions: json['healthConditions'] ?? '',
       role: json['role'] ?? 0,
       water: json['water'] ?? [],
-      trains: json['trains'] ?? []
+      trains: json['trains'] ?? [],
+      age: json['age'] ?? 0,
+      name: json['name'] ?? '',
+      about: json['about'] ?? '',
+      achivements: json['achivements'] ?? '',
     );
   }
 
@@ -76,11 +82,16 @@ class User {
       'role': role,
       'trains': trains,
       'water': water,
+      'age': age,
+      'name': name,
+      'achivements': achivements,
+      'about': about
     };
   }
 
   User copyWith({
     int? id,
+    String? name,
     String? login,
     String? password,
     String? gender,
@@ -95,6 +106,9 @@ class User {
     int? role,
     List<dynamic>? water,
     List<dynamic>? trains,
+    int? age,
+    String? achivements,
+    String? about,
 
   }) {
     return User(
@@ -113,6 +127,10 @@ class User {
       role: role ?? this.role,
       water: water ?? this.water,
       trains: trains ?? this.trains,
+      age: age ?? this.age,
+      name: name ?? this.name,
+      achivements: achivements ?? this.achivements,
+      about: about ?? this.about,
     );
   }
 }

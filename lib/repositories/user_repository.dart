@@ -73,4 +73,5 @@ class UserRepository {
       throw Exception('Failed to get current user');
     }
   }
+
 }
