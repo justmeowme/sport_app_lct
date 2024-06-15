@@ -15,7 +15,6 @@ class AuthRepository {
       final data = jsonDecode(response.body);
       final token = data['token'];
       await AuthService().saveToken(token);
-      print('Sign-in token saved: $token');
       return User.fromJson(data['user']);
     } else {
       throw Exception('Failed to sign in');
@@ -33,7 +32,6 @@ class AuthRepository {
       final data = jsonDecode(response.body);
       final token = data['token'];
       await AuthService().saveToken(token);
-      print('Sign-up token saved: $token');
       return User.fromJson(data['user']);
     } else {
       throw Exception('Failed to sign up');
@@ -42,7 +40,7 @@ class AuthRepository {
 
   Future<User> getUserFromToken(String token) async {
     final response = await http.get(
-      Uri.parse('$baseUrl'),
+      Uri.parse(baseUrl),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -53,5 +51,4 @@ class AuthRepository {
       throw Exception('Failed to get user from token');
     }
   }
-
 }

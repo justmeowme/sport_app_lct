@@ -17,69 +17,71 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is Authenticated) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => ClientHomeScreen(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 16),
+          child: BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is Authenticated) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ClientHomeScreen(),
+                  ),
+                );
+              } else if (state is AuthError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.message)),
+                );
+              }
+            },
+            child: Column(
+              children: [
+                const SizedBox(height: 20,),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset("assets/back_button.png", height: 32),
+                  ),
                 ),
-              );
-            } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-          },
-          child: Column(
-            children: [
-              SizedBox(height: 20,),
 
-              Align(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Image.asset("assets/back_button.png", height: 32),
+                const SizedBox(height: 20,),
+
+                Header(text: "Рады видеть тебя снова!", textAlign: TextAlign.left,),
+
+                const SizedBox(height: 20,),
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SmallText(text: 'Email',),
                 ),
-                alignment: Alignment.centerLeft,
-              ),
 
-              SizedBox(height: 20,),
+                const SizedBox(height: 12,),
 
-              Header(text: "Рады видеть тебя снова!", textAlign: TextAlign.left,),
+                CustomInput(controller: _usernameController),
 
-              SizedBox(height: 20,),
+                const SizedBox(height: 20,),
 
-              Align(
-                child: SmallText(text: 'Email',),
-                alignment: Alignment.centerLeft,
-              ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SmallText(text: 'Пароль',),
+                ),
 
-              SizedBox(height: 12,),
+                const SizedBox(height: 12,),
 
-              CustomInput(controller: _usernameController),
+                CustomInputPassword(controller: _passwordController),
 
-              SizedBox(height: 20,),
+                const SizedBox(height: 64),
 
-              Align(
-                child: SmallText(text: 'Пароль',),
-                alignment: Alignment.centerLeft,
-              ),
-
-              SizedBox(height: 12,),
-
-              CustomInputPassword(controller: _passwordController),
-
-              SizedBox(height: 64),
-              
-              ButtonPrimary(
+                ButtonPrimary(
                   text: "Вход",
                   onPress: () {
                     BlocProvider.of<AuthBloc>(context).add(
@@ -89,12 +91,12 @@ class LoginScreen extends StatelessWidget {
                       ),
                     );
                   },
-                isFullWidth: true,
-              ),
+                  isFullWidth: true,
+                ),
 
-              SizedBox(height: 12,),
+                const SizedBox(height: 12,),
 
-              CombinedText(
+                CombinedText(
                   mainText: "Еще нет аккаунта?",
                   clickableText: "Регистрация",
                   onTap: () {
@@ -104,26 +106,26 @@ class LoginScreen extends StatelessWidget {
                       ),
                     );
                   },
-              ),
+                ),
 
-              SizedBox(height: 6,),
+                const SizedBox(height: 6,),
 
-              CombinedText(
-                mainText: "Войти как",
-                clickableText: "тренер",
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CoachLoginScreen(),
-                    ),
-                  );
-                },
-              ),
-
-            ],
+                CombinedText(
+                  mainText: "Войти как",
+                  clickableText: "тренер",
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CoachLoginScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
-      ),
+      )
     );
   }
 }

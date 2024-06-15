@@ -9,7 +9,6 @@ import 'package:sport_app_lct/widgets/small_text.dart';
 import 'package:sport_app_lct/blocs/exercise_bloc/exercise_bloc.dart';
 import 'package:sport_app_lct/repositories/exercise_repository.dart';
 import 'package:sport_app_lct/widgets/custom_input_age.dart';
-
 import '../../blocs/exercise_bloc/exercise_event.dart';
 import '../../widgets/exercise_list.dart';
 
@@ -17,13 +16,13 @@ import '../../widgets/exercise_list.dart';
 class CreateLesson extends StatefulWidget {
   final Course course;
 
-  CreateLesson({required this.course});
+  const CreateLesson({super.key, required this.course});
 
   @override
-  _CreateLessonState createState() => _CreateLessonState();
+  CreateLessonState createState() => CreateLessonState();
 }
 
-class _CreateLessonState extends State<CreateLesson> {
+class CreateLessonState extends State<CreateLesson> {
   final TextEditingController _durationController = TextEditingController();
   int? segmentedControlGroupValue = 0;
 
@@ -60,6 +59,7 @@ class _CreateLessonState extends State<CreateLesson> {
   Widget build(BuildContext context) {
     Map<int, Widget> myTabs = <int, Widget>{
       0: Padding(
+        padding: const EdgeInsets.only(top: 6, bottom: 6),
         child: Text(
           "По сложности",
           style: TextStyle(
@@ -68,9 +68,9 @@ class _CreateLessonState extends State<CreateLesson> {
             color: segmentedControlGroupValue == 1 ? Colors.black : Colors.white,
           ),
         ),
-        padding: EdgeInsets.only(top: 6, bottom: 6),
       ),
       1: Padding(
+        padding: const EdgeInsets.only(top: 6, bottom: 6),
         child: Text(
           "По мышцам",
           style: TextStyle(
@@ -79,7 +79,6 @@ class _CreateLessonState extends State<CreateLesson> {
             color: segmentedControlGroupValue == 1 ? Colors.white : Colors.black,
           ),
         ),
-        padding: EdgeInsets.only(top: 6, bottom: 6),
       ),
     };
 
@@ -91,7 +90,7 @@ class _CreateLessonState extends State<CreateLesson> {
           ExerciseBloc(exerciseRepository: ExerciseRepository())
             ..add(LoadExercisesEvent()),
           child: Padding(
-            padding: EdgeInsets.only(bottom: 24, left: 20, right: 20, top: 12),
+            padding: const EdgeInsets.only(bottom: 24, left: 20, right: 20, top: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -103,66 +102,64 @@ class _CreateLessonState extends State<CreateLesson> {
                       },
                       child: Image.asset("assets/back_button.png", height: 32),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Header(
                       text: "Упражнения",
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(width: 32),
-                    Spacer(),
+                    const SizedBox(width: 32),
+                    const Spacer(),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 CustomInputAge(
                   controller: _durationController,
                   isDescription: true,
                   description: "Длительность упражнения (в секундах)",
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 SmallText(text: "Список упражнений"),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
                   child: CupertinoSlidingSegmentedControl(
-                    thumbColor: Color(0xFFED6929),
+                    thumbColor: const Color(0xFFED6929),
                     groupValue: segmentedControlGroupValue,
                     children: myTabs,
                     onValueChanged: (i) {
                       setState(() {
                         segmentedControlGroupValue = i;
                         _selectedFilter =
-                        "Все"; // Сбросить фильтр при смене сегмента
+                        "Все";
                       });
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 4,
-                ),
+                const SizedBox(height: 4,),
                 FormWidget(
                   isMultiSelect: false,
                   isHorizontal: true,
                   items: segmentedControlGroupValue == 0
-                      ? difficultyCategories
-                      : musclesCategories,
+                    ? difficultyCategories
+                    : musclesCategories,
                   onItemSelected: (index) {
                     setState(() {
                       _selectedFilter = segmentedControlGroupValue == 0
-                          ? difficultyCategories[index]["text"]
-                          : musclesCategories[index]["text"];
+                        ? difficultyCategories[index]["text"]
+                        : musclesCategories[index]["text"];
                     });
                   },
                   forFilter: true,
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Expanded(
                   child: ExerciseList(
                     muscle: segmentedControlGroupValue == 1 && _selectedFilter != "Все"
-                        ? _selectedFilter
-                        : null,
+                      ? _selectedFilter
+                      : null,
                     difficulty: segmentedControlGroupValue == 0 && _selectedFilter != "Все"
-                        ? _selectedFilter
-                        : null,
+                      ? _selectedFilter
+                      : null,
                   ),
                 ),
                 ButtonPrimary(

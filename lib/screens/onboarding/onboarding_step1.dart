@@ -11,49 +11,49 @@ import 'package:sport_app_lct/widgets/weight_slider.dart';
 class OnboardingStep1 extends StatefulWidget {
   final User user;
 
-  OnboardingStep1({required this.user});
+  const OnboardingStep1({super.key, required this.user});
 
   @override
-  _OnboardingStep1State createState() => _OnboardingStep1State();
+  OnboardingStep1State createState() => OnboardingStep1State();
 }
 
-class _OnboardingStep1State extends State<OnboardingStep1> {
+class OnboardingStep1State extends State<OnboardingStep1> {
   String? _gender = 'Male';
-  int _height = 170;
-  int? _weight;
+  int height = 170;
+  int? weight;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            SizedBox(height: 44),
+            const SizedBox(height: 44),
 
-            SmallText(text: "1/4", textColor: Color(0xFFED6929),),
+            SmallText(text: "1/4", textColor: const Color(0xFFED6929),),
 
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
             Header(text: "Давай", textAlign: TextAlign.left,),
             Header(text: "познакомимся", textAlign: TextAlign.left,),
 
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
 
             SmallText(text: "Чем больше информации ты укажешь, тем точнее мы подберем тренировки", textAlign: TextAlign.left,),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             SmallText(text: "Выбери пол", weight: 1,),
 
             FormWidget(
               isMultiSelect: false,
               isHorizontal: true,
-              items: [
+              items: const [
                 {'icon': Icons.male, 'text': 'Мужчина'},
                 {'icon': Icons.female, 'text': 'Женщина'}
               ],
@@ -64,31 +64,31 @@ class _OnboardingStep1State extends State<OnboardingStep1> {
               },
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             SmallText(text: "Введи свой рост", weight: 1,),
             
             HeightSlider(
               onHeightChanged: (int newHeight) {
                 setState(() {
-                  _height = newHeight;
+                  height = newHeight;
                 });
               },
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             SmallText(text: "Введи свой вес", weight: 1,),
 
             WeightSlider(
               onWeightChanged: (int newWeight) {
                 setState(() {
-                  _weight = newWeight;
+                  weight = newWeight;
                 });
               },
             ),
 
-            Spacer(),
+            const Spacer(),
             
             ButtonPrimary(
               text: "Далее",
@@ -108,20 +108,20 @@ class _OnboardingStep1State extends State<OnboardingStep1> {
               },
             ),
 
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
 
-            Center(
+            const Center(
               child: Text(
                 "Пропустить знакомство",
                 style: TextStyle(
-                    color: Color(0xFFB9B8B8),
-                    fontFamily: 'GilroyMedium',
-                    fontSize: 18
+                  color: Color(0xFFB9B8B8),
+                  fontFamily: 'GilroyMedium',
+                  fontSize: 18
                 ),
               ),
             ),
 
-            SizedBox(height: 24,),
+            const SizedBox(height: 24,),
           ],
         ),
       )

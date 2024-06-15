@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sport_app_lct/models/exercise.dart';
 import 'package:sport_app_lct/repositories/exercise_repository.dart';
 import 'package:sport_app_lct/blocs/exercise_bloc/exercise_event.dart';
 import 'package:sport_app_lct/blocs/exercise_bloc/exercise_state.dart';

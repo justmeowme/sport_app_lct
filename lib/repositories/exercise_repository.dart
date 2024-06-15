@@ -14,7 +14,6 @@ class ExerciseRepository {
     };
 
     final response = await http.get(Uri.parse(baseUrl), headers: headers);
-    print("RESPONSE IS $response");
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body)['exercises'];
@@ -44,9 +43,6 @@ class ExerciseRepository {
     final uri = Uri.parse("$baseUrl/filter").replace(
         queryParameters: queryParameters);
     final response = await http.get(uri, headers: headers);
-
-    print("RESPONSE FOR EXERCISE");
-    print(response.body.toString());
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body)['exercises'];

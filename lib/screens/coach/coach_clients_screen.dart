@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:sport_app_lct/widgets/header.dart';
 
 class CoachClientsScreen extends StatefulWidget {
+  const CoachClientsScreen({super.key});
+
   @override
-  _CoachClientsScreenState createState() => _CoachClientsScreenState();
+  CoachClientsScreenState createState() => CoachClientsScreenState();
 }
 
-class _CoachClientsScreenState extends State<CoachClientsScreen> {
+class CoachClientsScreenState extends State<CoachClientsScreen> {
   int? segmentedControlGroupValue = 0;
 
   @override
@@ -15,12 +17,12 @@ class _CoachClientsScreenState extends State<CoachClientsScreen> {
 
     Map<int, Widget> myTabs = <int, Widget>{
       0: Padding(
+        padding: const EdgeInsets.only(top: 12, bottom: 12),
         child: Text("Мои клиенты", style: TextStyle(fontFamily: 'GilroyMedium', fontSize: 18, color: segmentedControlGroupValue == 1 ? Colors.black : Colors.white),),
-        padding: EdgeInsets.only(top: 12, bottom: 12),
       ),
       1: Padding(
+        padding: const EdgeInsets.only(top: 12, bottom: 12),
         child: Text("Все клиенты", style: TextStyle(fontFamily: 'GilroyMedium', fontSize: 18, color: segmentedControlGroupValue == 1 ? Colors.white : Colors.black),),
-        padding: EdgeInsets.only(top: 12, bottom: 12),
       ),
     };
 
@@ -28,17 +30,17 @@ class _CoachClientsScreenState extends State<CoachClientsScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 24),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 24),
           child: Column(
             children: [
               Center(
                 child: Header(text: "Клиенты"),
               ),
-              SizedBox(height: 12,),
+              const SizedBox(height: 12,),
               SizedBox(
                 width: double.infinity,
                 child: CupertinoSlidingSegmentedControl(
-                  thumbColor: Color(0xFFED6929),
+                  thumbColor: const Color(0xFFED6929),
                   groupValue: segmentedControlGroupValue,
                   children: myTabs,
                   onValueChanged: (i) {

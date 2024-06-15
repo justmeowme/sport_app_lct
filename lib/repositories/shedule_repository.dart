@@ -13,7 +13,7 @@ class ScheduleRepository {
       'Authorization': 'Bearer $token',
     };
 
-    final response = await http.get(Uri.parse(baseUrl + '/local'), headers: headers);
+    final response = await http.get(Uri.parse('$baseUrl/local'), headers: headers);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);

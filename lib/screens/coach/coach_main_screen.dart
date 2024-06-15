@@ -86,9 +86,9 @@ class _MainScreenState extends State<CoachMainScreen> {
 
     final List<Widget> pages = [
       CoachChatScreen(chats: chats),
-      CoachHomeScreen(),
+      const CoachHomeScreen(),
       CoachClientsScreen(),
-      CoachPortfolioScreen(),
+      const CoachPortfolioScreen(),
     ];
 
     return Scaffold(

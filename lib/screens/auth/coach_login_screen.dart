@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sport_app_lct/screens/coach/coach_home_screen.dart';
 import 'package:sport_app_lct/widgets/button_secondary.dart';
 import 'package:sport_app_lct/widgets/custom_input.dart';
 import 'package:sport_app_lct/widgets/header.dart';
@@ -9,25 +8,24 @@ import 'package:sport_app_lct/widgets/small_text.dart';
 import '../../blocs/auth_bloc/auth_bloc.dart';
 import '../../blocs/auth_bloc/auth_event.dart';
 import '../../blocs/auth_bloc/auth_state.dart';
-import '../client/client_home_screen.dart';
-import '../client/client_main_screen.dart';
 import '../coach/coach_main_screen.dart';
 
 class CoachLoginScreen extends StatelessWidget {
 
   final TextEditingController _codeController = TextEditingController();
 
+  CoachLoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFED6929),
+      backgroundColor: const Color(0xFFED6929),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Authenticated) {
-            print('User authenticated: ${state.user}');
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => CoachMainScreen(),
+                builder: (context) => const CoachMainScreen(),
               ),
             );
           } else if (state is AuthError) {
@@ -38,22 +36,22 @@ class CoachLoginScreen extends StatelessWidget {
         },
         child: Column(
           children: [
-            SizedBox(height: 120,),
+            const SizedBox(height: 120,),
 
             Header(text: "Введите код", textColor: Colors.white),
 
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
 
             SmallText(text: "Код можно получить от менеджера или в спортзале, где вы работаете", textColor: Colors.white,),
 
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
 
             Padding(
-              padding: EdgeInsets.only(left: 24, right: 24),
+              padding: const EdgeInsets.only(left: 24, right: 24),
               child: CustomInput(controller: _codeController),
             ),
 
-            Spacer(),
+            const Spacer(),
 
             ButtonSecondary(
               text: "Войти",
@@ -68,13 +66,10 @@ class CoachLoginScreen extends StatelessWidget {
               isFullWidth: true,
             ),
 
-            SizedBox(height: 96),
+            const SizedBox(height: 96),
           ],
-
-
         ),
       ),
-
     );
   }
 }

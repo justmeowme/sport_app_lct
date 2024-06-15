@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import 'package:sport_app_lct/screens/client/client_chat_screen.dart';
 import 'package:sport_app_lct/screens/client/client_main_screen.dart';
 import 'package:sport_app_lct/screens/coach/coach_chat_screen.dart';
-import 'package:sport_app_lct/screens/coach/coach_clients_screen.dart';
-import 'package:sport_app_lct/screens/coach/coach_portfolio_screen.dart';
-
 import '../../models/chat.dart';
 import '../../models/message.dart';
 import '../../models/rive_model.dart';
-import '../coach/coach_home_screen.dart';
 import 'client_trains_screen.dart';
 import 'client_profile_screen.dart';
 
@@ -61,7 +56,7 @@ class _MainScreenState extends State<ClientHomeScreen> {
     riveIconInputs[index].change(true);
     Future.delayed(
       const Duration(seconds: 1),
-          () {
+      () {
         riveIconInputs[index].change(false);
       },
     );
@@ -91,8 +86,8 @@ class _MainScreenState extends State<ClientHomeScreen> {
     final List<Widget> pages = [
       CoachChatScreen(chats: chats),
       ClientMainScreen(),
-      ClientTrainsScreen(),
-      ClientProfileScreen(),
+      const ClientTrainsScreen(),
+      const ClientProfileScreen(),
     ];
 
     return Scaffold(
@@ -144,8 +139,7 @@ class _MainScreenState extends State<ClientHomeScreen> {
                                 riveIcon.src,
                                 artboard: riveIcon.artboard,
                                 onInit: (artboard) {
-                                  riveOnInIt(artboard,
-                                      stateMachineName: riveIcon.stateMachineName);
+                                  riveOnInIt(artboard, stateMachineName: riveIcon.stateMachineName);
                                 },
                               ),
                             ),

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/models/course.dart';
@@ -15,11 +13,13 @@ import '../../widgets/form_widget.dart';
 import '../../widgets/header.dart';
 
 class CreateCourse extends StatefulWidget {
+  const CreateCourse({super.key});
+
   @override
-  _CreateCourseState createState() => _CreateCourseState();
+  CreateCourseState createState() => CreateCourseState();
 }
 
-class _CreateCourseState extends State<CreateCourse> {
+class CreateCourseState extends State<CreateCourse> {
   final TextEditingController _courseNameController = TextEditingController();
   final TextEditingController _courseDescriptionController = TextEditingController();
   int _difficulty = 0;
@@ -29,9 +29,9 @@ class _CreateCourseState extends State<CreateCourse> {
     return BlocListener<CoursesBloc, CoursesState>(
       listener: (context, state) {
         if (state is CourseCreationSuccess) {
-          Navigator.of(context).pushReplacement(
+          Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => CoursesList(),
+              builder: (context) => const CoursesList(),
             ),
           );
         } else if (state is CoursesError) {
@@ -43,7 +43,7 @@ class _CreateCourseState extends State<CreateCourse> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: EdgeInsets.only(top: 48, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 48, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,40 +52,36 @@ class _CreateCourseState extends State<CreateCourse> {
                   GestureDetector(
                     child: Image.asset("assets/back_button.png", height: 44, width: 44,),
                     onTap: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => CoursesList(),
-                        ),
-                      );
+                      Navigator.of(context).pop();
                     },
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Center(
                     child: Header(text: "Шаг 1",),
                   ),
-                  Spacer(),
-                  SizedBox(width: 44),
+                  const Spacer(),
+                  const SizedBox(width: 44),
                 ],
               ),
-              SizedBox(height: 24,),
+              const SizedBox(height: 24,),
               CustomInput(
                 controller: _courseNameController,
                 isDescription: true,
                 description: "Название курса",
               ),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               CustomInputExtendable(
                 controller: _courseDescriptionController,
                 description: "Описание курса",
                 isDescription: true,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Description(text: "Сложность"),
-              SizedBox(height: 4,),
+              const SizedBox(height: 4,),
               FormWidget(
                 isMultiSelect: false,
                 isHorizontal: false,
-                items: [
+                items: const [
                   {'icon': Icons.battery_1_bar, 'text': 'Легкая'},
                   {'icon': Icons.battery_3_bar, 'text': 'Нормальная'},
                   {'icon': Icons.battery_5_bar, 'text': 'Средняя'},
@@ -97,7 +93,7 @@ class _CreateCourseState extends State<CreateCourse> {
                   });
                 },
               ),
-              Spacer(),
+              const Spacer(),
               ButtonPrimary(
                 text: "Создать курс",
                 onPress: () {
@@ -114,12 +110,11 @@ class _CreateCourseState extends State<CreateCourse> {
                 },
                 isFullWidth: true,
               ),
-              SizedBox(height: 20,)
+              const SizedBox(height: 20,)
             ],
           ),
         ),
       ),
     );
   }
-
 }

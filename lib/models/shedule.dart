@@ -23,8 +23,8 @@ class Shedule {
     this.reminderCoach = false,
     this.reminderClient = false,
     this.isGlobal = false,
-    this.client = null,
-    this.coach = null,
+    this.client,
+    this.coach,
   });
 
   factory Shedule.fromJson(Map<String, dynamic> json) {
