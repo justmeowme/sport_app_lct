@@ -27,7 +27,7 @@ class CoachLoginScreen extends StatelessWidget {
             print('User authenticated: ${state.user}');
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => ClientHomeScreen(),
+                builder: (context) => CoachMainScreen(),
               ),
             );
           } else if (state is AuthError) {
