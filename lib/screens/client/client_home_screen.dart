@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:sport_app_lct/screens/client/client_chat_screen.dart';
 import 'package:sport_app_lct/screens/client/client_main_screen.dart';
+import 'package:sport_app_lct/screens/coach/coach_chat_screen.dart';
 import 'package:sport_app_lct/screens/coach/coach_clients_screen.dart';
 import 'package:sport_app_lct/screens/coach/coach_portfolio_screen.dart';
 
+import '../../models/chat.dart';
+import '../../models/message.dart';
 import '../../models/rive_model.dart';
-import 'ClientTrainsScreen.dart';
+import '../coach/coach_home_screen.dart';
+import 'client_trains_screen.dart';
 import 'client_profile_screen.dart';
 
 const Color bottonNavBgColor = Color(0xFF17203A);
@@ -42,11 +46,15 @@ class _MainScreenState extends State<ClientHomeScreen> {
   List<StateMachineController?> controllers = [];
   int selctedNavIndex = 1;
 
-  final List<Widget> pages = [
-    ClientChatScreen(),
-    ClientMainScreen(),
-    ClientTrainsScreen(),
-    ClientProfileScreen(),
+  final chats = [
+    Chat(
+      name: 'Alice',
+      profileImageUrl: 'https://via.placeholder.com/50',
+      messages: [
+        Message(content: 'Hello!', timestamp: DateTime.now(), isRead: false, isMe: false),
+      ],
+      unreadCount: 1,
+    ),
   ];
 
   void animateTheIcon(int index) {
@@ -79,6 +87,14 @@ class _MainScreenState extends State<ClientHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final List<Widget> pages = [
+      CoachChatScreen(chats: chats),
+      CoachHomeScreen(),
+      CoachClientsScreen(),
+      CoachPortfolioScreen(),
+    ];
+
     return Scaffold(
       body: Stack(
         children: [

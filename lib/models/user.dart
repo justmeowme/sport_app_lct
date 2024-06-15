@@ -4,8 +4,8 @@ class User {
   final String login;
   final String? password;
   final String? gender;
-  final int? height;
-  final int? weight;
+  final List<dynamic>? height;
+  final List<dynamic>? weight;
   final String? goals;
   final String? experience;
   final bool? gymMember;
@@ -13,15 +13,23 @@ class User {
   final String? gymName;
   final String? healthConditions;
   final int? role;
+  final String? about;
+  final String? achivements;
+  final List<dynamic>? water;
+  final List<dynamic>? trains;
 
   User({
+    this.about,
+    this.achivements,
+    this.water,
+    this.trains,
     required this.id,
     required this.login,
     required this.password,
     this.name = "Без Имени",
     this.gender = '',
-    this.height = 0,
-    this.weight = 0,
+    this.height,
+    this.weight,
     this.goals = '',
     this.experience = '',
     this.gymMember = false,
@@ -37,8 +45,8 @@ class User {
       login: json['login'],
       password: json['password'],
       gender: json['gender'] ?? '',
-      height: json['height'] ?? 0,
-      weight: json['weight'] ?? 0,
+      height: json['height'] ?? [],
+      weight: json['weight'] ?? [],
       goals: json['goals'] ?? '',
       experience: json['experience'] ?? '',
       gymMember: json['gymMember'] ?? false,
@@ -46,6 +54,8 @@ class User {
       gymName: json['gymName'] ?? '',
       healthConditions: json['healthConditions'] ?? '',
       role: json['role'] ?? 0,
+      water: json['water'] ?? [],
+      trains: json['trains'] ?? []
     );
   }
 
@@ -64,6 +74,8 @@ class User {
       'gymName': gymName,
       'healthConditions': healthConditions,
       'role': role,
+      'trains': trains,
+      'water': water,
     };
   }
 
@@ -72,8 +84,8 @@ class User {
     String? login,
     String? password,
     String? gender,
-    int? height,
-    int? weight,
+    List<dynamic>? height,
+    List<dynamic>? weight,
     String? goals,
     String? experience,
     bool? gymMember,
@@ -81,6 +93,9 @@ class User {
     String? gymName,
     String? healthConditions,
     int? role,
+    List<dynamic>? water,
+    List<dynamic>? trains,
+
   }) {
     return User(
       id: id ?? this.id,
@@ -96,6 +111,8 @@ class User {
       gymName: gymName ?? this.gymName,
       healthConditions: healthConditions ?? this.healthConditions,
       role: role ?? this.role,
+      water: water ?? this.water,
+      trains: trains ?? this.trains,
     );
   }
 }

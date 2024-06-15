@@ -19,7 +19,7 @@ class ClientInfoComponent extends StatelessWidget {
       width: 160,
       height: 100,
       child: Padding(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 4, bottom: 4),
+        padding: EdgeInsets.only(left: 32, right: 12, top: 4, bottom: 4),
         child: Row(
           children: [
             Column(
@@ -54,7 +54,7 @@ class ClientInfoComponent extends StatelessWidget {
               ],
             ),
             Spacer(),
-            Image.asset("assets/plus.png", height: 24,)
+            Image.asset("assets/plus.png", height: 24,),
           ],
         )
       )

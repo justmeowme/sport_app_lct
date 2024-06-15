@@ -99,8 +99,8 @@ class _OnboardingStep1State extends State<OnboardingStep1> {
                     builder: (context) => OnboardingStep2(
                       user: widget.user.copyWith(
                         gender: _gender,
-                        height: _height,
-                        weight: _weight,
+                        height: [],
+                        weight: [],
                       ),
                     ),
                   ),

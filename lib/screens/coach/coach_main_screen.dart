@@ -3,6 +3,8 @@ import 'package:rive/rive.dart';
 import 'package:sport_app_lct/screens/coach/coach_clients_screen.dart';
 import 'package:sport_app_lct/screens/coach/coach_portfolio_screen.dart';
 
+import '../../models/chat.dart';
+import '../../models/message.dart';
 import '../../models/rive_model.dart';
 import 'coach_chat_screen.dart';
 import 'coach_home_screen.dart';
@@ -40,11 +42,15 @@ class _MainScreenState extends State<CoachMainScreen> {
   List<StateMachineController?> controllers = [];
   int selctedNavIndex = 1;
 
-  final List<Widget> pages = [
-    CoachChatScreen(),
-    CoachHomeScreen(),
-    CoachClientsScreen(),
-    CoachPortfolioScreen(),
+  final chats = [
+    Chat(
+      name: 'Alice',
+      profileImageUrl: 'https://via.placeholder.com/50',
+      messages: [
+        Message(content: 'Hello!', timestamp: DateTime.now(), isRead: false, isMe: false),
+      ],
+      unreadCount: 1,
+    ),
   ];
 
   void animateTheIcon(int index) {
@@ -77,6 +83,14 @@ class _MainScreenState extends State<CoachMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final List<Widget> pages = [
+      CoachChatScreen(chats: chats),
+      CoachHomeScreen(),
+      CoachClientsScreen(),
+      CoachPortfolioScreen(),
+    ];
+
     return Scaffold(
       body: Stack(
         children: [
