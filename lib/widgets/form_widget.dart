@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:sport_app_lct/widgets/selectable_item.dart';
+
+import 'category_element.dart';
 
 class FormWidget extends StatefulWidget {
   final bool isMultiSelect;
   final bool isHorizontal;
   final List<Map<String, dynamic>> items;
   final Function(int) onItemSelected;
+  final bool forFilter;
 
   const FormWidget({
     Key? key,
@@ -13,6 +17,7 @@ class FormWidget extends StatefulWidget {
     required this.isHorizontal,
     required this.items,
     required this.onItemSelected,
+    this.forFilter = false,
   }) : super(key: key);
 
   @override
@@ -43,35 +48,40 @@ class _FormWidgetState extends State<FormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.isHorizontal
-        ? Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: widget.items.asMap().entries.map((entry) {
-        int index = entry.key;
-        Map<String, dynamic> item = entry.value;
+    return widget.isHorizontal ? SingleChildScrollView(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: widget.items.asMap().entries.map((entry) {
+          int index = entry.key;
+          Map<String, dynamic> item = entry.value;
 
-        // Определение отступов для крайних элементов
-        EdgeInsetsGeometry padding;
-        if (index == 0) {
-          padding = const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 8.0); // Первый элемент, без отступа слева
-        } else if (index == widget.items.length - 1) {
-          padding = const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0); // Последний элемент, без отступа справа
-        } else {
-          padding = const EdgeInsets.all(8.0); // Все остальные элементы
-        }
+          EdgeInsetsGeometry padding;
+          if (index == 0) {
+            padding = const EdgeInsets.only(top: 4.0, bottom: 4.0, right: 2.0); // Первый элемент, без отступа слева
+          } else if (index == widget.items.length - 1) {
+            padding = const EdgeInsets.only(top: 4.0, bottom: 4.0, left: 2.0); // Последний элемент, без отступа справа
+          } else {
+            padding = const EdgeInsets.only(left: 2.0, right: 2.0, top: 4.0, bottom: 4.0);
+          }
 
-        return Expanded(
-          child: Padding(
-            padding: padding,
-            child: SelectableItem(
-              icon: item['icon'],
-              text: item['text'],
-              isActive: selectedIndexes.contains(index),
-              onTap: () => onItemTapped(index),
+          return Container(
+            child: Padding(
+              padding: padding,
+              child: widget.forFilter == false ? SelectableItem(
+                icon: item['icon'],
+                text: item['text'],
+                isActive: selectedIndexes.contains(index),
+                onTap: () => onItemTapped(index),
+              ) : CategoryElement(
+                text: item['text'],
+                isActive: selectedIndexes.contains(index),
+                onTap: () => onItemTapped(index),
+              ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
+      scrollDirection: Axis.horizontal,
     )
         : Column(
       mainAxisAlignment: MainAxisAlignment.center,

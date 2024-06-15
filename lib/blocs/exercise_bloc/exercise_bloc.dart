@@ -9,17 +9,28 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
 
   ExerciseBloc({required this.exerciseRepository}) : super(ExerciseInitialState()) {
     on<LoadExercisesEvent>(_onLoadExercises);
+    on<FilterExercisesEvent>(_onFilterExercises);
   }
 
   void _onLoadExercises(LoadExercisesEvent event, Emitter<ExerciseState> emit) async {
     emit(ExerciseLoadingState());
     try {
       final exercises = await exerciseRepository.getExercises();
-      print("here exercises");
-      print(exercises[0]);
       emit(ExerciseLoadedState(exercises: exercises));
     } catch (e) {
-      print("exersise error $e");
+      emit(ExerciseErrorState(message: e.toString()));
+    }
+  }
+
+  void _onFilterExercises(FilterExercisesEvent event, Emitter<ExerciseState> emit) async {
+    emit(ExerciseLoadingState());
+    try {
+      final exercises = await exerciseRepository.getExercisesFiltered(
+        muscle: event.muscle,
+        difficulty: event.difficulty,
+      );
+      emit(ExerciseLoadedState(exercises: exercises));
+    } catch (e) {
       emit(ExerciseErrorState(message: e.toString()));
     }
   }

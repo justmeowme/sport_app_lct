@@ -1,125 +1,180 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/models/course.dart';
-import 'package:sport_app_lct/models/exercise.dart';
 import 'package:sport_app_lct/widgets/button_primary.dart';
-import 'package:sport_app_lct/widgets/exercise_widget.dart';
+import 'package:sport_app_lct/widgets/form_widget.dart';
 import 'package:sport_app_lct/widgets/header.dart';
 import 'package:sport_app_lct/widgets/small_text.dart';
+import 'package:sport_app_lct/blocs/exercise_bloc/exercise_bloc.dart';
+import 'package:sport_app_lct/repositories/exercise_repository.dart';
+import 'package:sport_app_lct/widgets/custom_input_age.dart';
 
-import '../../blocs/exercise_bloc/exercise_bloc.dart';
 import '../../blocs/exercise_bloc/exercise_event.dart';
-import '../../blocs/exercise_bloc/exercise_state.dart';
-import '../../repositories/exercise_repository.dart';
-import '../../widgets/custom_input_age.dart';
+import '../../widgets/exercise_list.dart';
 
-class CreateLesson extends StatelessWidget {
+
+class CreateLesson extends StatefulWidget {
   final Course course;
-  final TextEditingController _durationController = TextEditingController();
 
   CreateLesson({required this.course});
 
   @override
+  _CreateLessonState createState() => _CreateLessonState();
+}
+
+class _CreateLessonState extends State<CreateLesson> {
+  final TextEditingController _durationController = TextEditingController();
+  int? segmentedControlGroupValue = 0;
+
+  List<Map<String, dynamic>> musclesCategories = [
+    {"text": "Все", "icon": Icons.abc},
+    {"text": "Пресс", "icon": Icons.abc},
+    {"text": "Нижняя часть спины", "icon": Icons.abc},
+    {"text": "Трицепцы", "icon": Icons.abc},
+    {"text": "Плечи", "icon": Icons.abc},
+    {"text": "Широчайшие мышцы спины", "icon": Icons.abc},
+    {"text": "Квадрицепсы", "icon": Icons.abc},
+    {"text": "Грудь", "icon": Icons.abc},
+    {"text": "Бедра", "icon": Icons.abc},
+    {"text": "Средняя часть спины", "icon": Icons.abc},
+    {"text": "Бицепс", "icon": Icons.abc},
+    {"text": "Икры", "icon": Icons.abc},
+    {"text": "Ягодицы", "icon": Icons.abc},
+    {"text": "Аддукторы", "icon": Icons.abc},
+    {"text": "Шея", "icon": Icons.abc},
+    {"text": "Предплечья", "icon": Icons.abc},
+    {"text": "Абдукторы", "icon": Icons.abc},
+  ];
+
+  List<Map<String, dynamic>> difficultyCategories = [
+    {"text": "Все", "icon": Icons.abc},
+    {"text": "Начинающий", "icon": Icons.abc},
+    {"text": "Средний", "icon": Icons.abc},
+    {"text": "Профессионал", "icon": Icons.abc},
+  ];
+
+  String _selectedFilter = "Все";
+
+  @override
   Widget build(BuildContext context) {
+    Map<int, Widget> myTabs = <int, Widget>{
+      0: Padding(
+        child: Text(
+          "По сложности",
+          style: TextStyle(
+            fontFamily: 'GilroyMedium',
+            fontSize: 18,
+            color: segmentedControlGroupValue == 1 ? Colors.black : Colors.white,
+          ),
+        ),
+        padding: EdgeInsets.only(top: 6, bottom: 6),
+      ),
+      1: Padding(
+        child: Text(
+          "По мышцам",
+          style: TextStyle(
+            fontFamily: 'GilroyMedium',
+            fontSize: 18,
+            color: segmentedControlGroupValue == 1 ? Colors.white : Colors.black,
+          ),
+        ),
+        padding: EdgeInsets.only(top: 6, bottom: 6),
+      ),
+    };
+
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 24, left: 20, right: 20, top: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset("assets/back_button.png", height: 32),
-                        ),
-                      ),
-                      Spacer(),
-                      Header(text: "Упражнения", textAlign: TextAlign.left,),
-                      SizedBox(width: 32,),
-                      Spacer(),
-                    ],
-                  ),
-
-                  SizedBox(height: 16,),
-
-                  CustomInputAge(
-                    controller: _durationController,
-                    isDescription: true,
-                    description: "Длительность упражнения (в секундах)",
-                  ),
-
-                  SizedBox(height: 16,),
-
-                  SmallText(text: "Список упражнений"),
-
-
-                  BlocProvider(
-                    create: (context) => ExerciseBloc(exerciseRepository: ExerciseRepository())..add(LoadExercisesEvent()),
-                    child: Container(
-                      height: 500,
-                      child: BlocBuilder<ExerciseBloc, ExerciseState>(
-                        builder: (context, state) {
-                          if (state is ExerciseLoadingState) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (state is ExerciseLoadedState) {
-                            return ListView.builder(
-                              itemCount: state.exercises.length,
-                              itemBuilder: (context, index) {
-                                final exercise = state.exercises[index];
-                                return Column(
-                                  children: [
-                                    ExerciseWidget(
-                                      selected: false,
-                                      exercise: Exercise(
-                                          id: exercise.id,
-                                          additionalMuscle: exercise.additionalMuscle,
-                                          createdAt: exercise.createdAt,
-                                          difficulty: exercise.difficulty,
-                                          equipment: exercise.equipment,
-                                          muscle: exercise.muscle,
-                                          name: exercise.name,
-                                          originalUri: exercise.originalUri,
-                                          photos: exercise.photos,
-                                          type: exercise.type,
-                                          updatedAt: exercise.updatedAt
-                                      )
-                                    ),
-                                    SizedBox(height: 8,)
-                                  ],
-                                );
-                              },
-                            );
-                          } else if (state is ExerciseErrorState) {
-                            return Center(child: Text('Error: ${state.message}'));
-                          } else {
-                            return Center(child: Text('No exercises found'));
-                          }
-                        },
-                      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) =>
+          ExerciseBloc(exerciseRepository: ExerciseRepository())
+            ..add(LoadExercisesEvent()),
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 24, left: 20, right: 20, top: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Image.asset("assets/back_button.png", height: 32),
                     ),
-                  ),
-
-                  Spacer(),
-                  ButtonPrimary(
-                    text: "Добавить",
-                    onPress: (){
-
+                    Spacer(),
+                    Header(
+                      text: "Упражнения",
+                      textAlign: TextAlign.left,
+                    ),
+                    SizedBox(width: 32),
+                    Spacer(),
+                  ],
+                ),
+                SizedBox(height: 16),
+                CustomInputAge(
+                  controller: _durationController,
+                  isDescription: true,
+                  description: "Длительность упражнения (в секундах)",
+                ),
+                SizedBox(height: 16),
+                SmallText(text: "Список упражнений"),
+                SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: CupertinoSlidingSegmentedControl(
+                    thumbColor: Color(0xFFED6929),
+                    groupValue: segmentedControlGroupValue,
+                    children: myTabs,
+                    onValueChanged: (i) {
+                      setState(() {
+                        segmentedControlGroupValue = i;
+                        _selectedFilter =
+                        "Все"; // Сбросить фильтр при смене сегмента
+                      });
                     },
-                    isFullWidth: true,
                   ),
-                ],
-              ),
-            )
-        )
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                FormWidget(
+                  isMultiSelect: false,
+                  isHorizontal: true,
+                  items: segmentedControlGroupValue == 0
+                      ? difficultyCategories
+                      : musclesCategories,
+                  onItemSelected: (index) {
+                    setState(() {
+                      _selectedFilter = segmentedControlGroupValue == 0
+                          ? difficultyCategories[index]["text"]
+                          : musclesCategories[index]["text"];
+                    });
+                  },
+                  forFilter: true,
+                ),
+                SizedBox(height: 12),
+                Expanded(
+                  child: ExerciseList(
+                    muscle: segmentedControlGroupValue == 1 && _selectedFilter != "Все"
+                        ? _selectedFilter
+                        : null,
+                    difficulty: segmentedControlGroupValue == 0 && _selectedFilter != "Все"
+                        ? _selectedFilter
+                        : null,
+                  ),
+                ),
+                ButtonPrimary(
+                  text: "Добавить",
+                  onPress: () {},
+                  isFullWidth: true,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
