@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 import 'package:sport_app_lct/screens/coach/coach_edit_profile.dart';
 import 'package:sport_app_lct/widgets/header.dart';
 import 'package:sport_app_lct/widgets/small_text.dart';
@@ -10,6 +13,12 @@ import '../../blocs/user_bloc/user_state.dart';
 import '../../repositories/user_repository.dart';
 
 class CoachPortfolioScreen extends StatelessWidget {
+
+  void getImage(ImageSource camera) async{
+    final xFile = await ImagePicker().pickImage(source: camera);
+    print(xFile?.path);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -43,32 +52,46 @@ class CoachPortfolioScreen extends StatelessWidget {
                     if (state is UserLoadingState) {
                       return Center(child: CircularProgressIndicator());
                     } else if (state is UserLoadedState) {
-                      final userName = state.user.name?.isNotEmpty == true ? state.user.name : "Без Имени";
-                      final userAge = state.user.age != null ? state.user.age.toString() : '';
+                      final user = state.user;
+                      final userName = user.name?.isNotEmpty == true ? user.name : "Без Имени";
+                      final userAge = user.age != null ? user.age.toString() : '';
                       final userDisplay = userAge.isNotEmpty ? "$userName, $userAge" : userName;
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Stack(
-                            children: [
-                              Image.asset(
-                                "assets/coach_no_photo.png",
-                                width: MediaQuery.of(context).size.width - 40,
-                              ),
-                              Positioned(
-                                bottom: 10,
-                                left: 10,
-                                child: Text(
-                                  userDisplay!,
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontFamily: 'GilroyMedium',
-                                    fontWeight: FontWeight.bold,
+                          GestureDetector(
+                            onTap: () {
+
+                              getImage(ImageSource.camera);
+
+                              // final picker = ImagePicker();
+                              // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                              //
+                              // if (pickedFile != null) {
+                              //   BlocProvider.of<UserBloc>(context).add(UploadUserIconEvent(image: File(pickedFile.path)));
+                              // }
+                            },
+                            child: Stack(
+                              children: [
+                                Image.asset(
+                                  user.icon != null && user.icon!.isNotEmpty ? user.icon! : "assets/coach_no_photo.png",
+                                  width: MediaQuery.of(context).size.width - 40,
+                                ),
+                                Positioned(
+                                  bottom: 10,
+                                  left: 10,
+                                  child: Text(
+                                    userDisplay!,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontFamily: 'GilroyMedium',
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           SizedBox(height: 24,),
 

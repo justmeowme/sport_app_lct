@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sport_app_lct/services/auth/auth_service.dart';
 import '../models/user.dart';
+import 'dart:io';
 
 class UserRepository {
   final String baseUrl = 'http://sport-plus.sorewa.ru:8080/v1/user';
@@ -71,6 +72,29 @@ class UserRepository {
       return User.fromJson(data['user']);
     } else {
       throw Exception('Failed to get current user');
+    }
+  }
+  Future<String> uploadUserIcon(File image) async {
+    final token = await AuthService().getToken();
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+
+    final request = http.MultipartRequest(
+      'POST',
+      Uri.parse('$baseUrl/upload/icon'),
+    );
+    request.headers.addAll(headers);
+    request.files.add(await http.MultipartFile.fromPath('file', image.path));
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      final responseBody = await response.stream.bytesToString();
+      final data = jsonDecode(responseBody);
+      return data['url'];
+    } else {
+      throw Exception('Failed to upload user icon');
     }
   }
 
