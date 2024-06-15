@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
             if (state is Authenticated) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => ClientHomeScreen(),
+                  builder: (context) => const ClientHomeScreen(),
                 ),
               );
             } else if (state is AuthError) {
