@@ -9,6 +9,7 @@ import 'package:sport_app_lct/widgets/course_widget.dart';
 import 'package:sport_app_lct/widgets/header.dart';
 
 class ClientTrainsScreen extends StatelessWidget {
+  const ClientTrainsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

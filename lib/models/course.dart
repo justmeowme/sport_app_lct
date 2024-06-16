@@ -30,7 +30,6 @@ class Course {
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
-    print(json);
     return Course(
       id: json['id'],
       title: json['title'],

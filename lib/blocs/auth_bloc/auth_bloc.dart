@@ -20,10 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final user = await authRepository.signIn(event.login, event.password);
-      print('User signed in: $user');
       emit(Authenticated(user: user));
     } catch (e) {
-      print('Sign in error: $e');
       emit(AuthError(message: e.toString()));
     }
   }
@@ -32,10 +30,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final user = await authRepository.signUp(event.login, event.password);
-      print('User signed up: $user');
       emit(Authenticated(user: user));
     } catch (e) {
-      print('Sign up error: $e');
       emit(AuthError(message: e.toString()));
     }
   }
@@ -46,7 +42,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await AuthService().removeToken();
       emit(AuthInitial());
     } catch (e) {
-      print('Sign out error: $e');
       emit(AuthError(message: e.toString()));
     }
   }
@@ -57,7 +52,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await userRepository.completeOnboarding(event.user);
       emit(Authenticated(user: event.user));
     } catch (e) {
-      print('Complete onboarding error: $e');
       emit(AuthError(message: e.toString()));
     }
   }

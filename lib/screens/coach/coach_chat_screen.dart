@@ -8,7 +8,7 @@ import 'chat_details_screen.dart';
 class CoachChatScreen extends StatelessWidget {
   final List<Chat> chats;
 
-  CoachChatScreen({required this.chats});
+  const CoachChatScreen({super.key, required this.chats});
 
   void _onChatTap(BuildContext context, Chat chat) {
     Navigator.push(
@@ -28,13 +28,13 @@ class CoachChatScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 0, left: 20),
+              padding: const EdgeInsets.only(top: 0, left: 20),
               child: Header(text: "Чаты"),
             ),
 
-            SizedBox(height: 12,),
+            const SizedBox(height: 12,),
 
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.width,
               child: ListView.builder(
                 itemCount: chats.length,

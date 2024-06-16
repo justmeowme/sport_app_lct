@@ -17,107 +17,115 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
+  RegisterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is Authenticated) {
-              print('User authenticated: ${state.user}');
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => OnboardingStep1(user: state.user),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20,),
+          child: BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is Authenticated) {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => OnboardingStep1(user: state.user),
+                  ),
+                );
+              } else if (state is AuthError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.message)),
+                );
+              }
+            },
+            child: Column(
+              children: [
+                const SizedBox(height: 20,),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset("assets/back_button.png", height: 32),
+                  ),
                 ),
-              );
-            } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-          },
-          child: Column(
-            children: [
-              SizedBox(height: 20,),
-              Align(
-                child: Image.asset("assets/back_button.png", height: 50, width: 50,),
-                alignment: Alignment.centerLeft,
-              ),
-              SizedBox(height: 20,),
-              Header(text: "Ты уже на шаг ближе к спорту!", textAlign: TextAlign.left,),
-              SizedBox(height: 20,),
-              Align(
-                child: SmallText(text: 'Email',),
-                alignment: Alignment.centerLeft,
-              ),
-              SizedBox(height: 12,),
-              CustomInput(controller: _usernameController),
-              SizedBox(height: 20,),
-              Align(
-                child: SmallText(text: 'Имя',),
-                alignment: Alignment.centerLeft,
-              ),
-              SizedBox(height: 12,),
-              CustomInput(controller: _nameController),
-              SizedBox(height: 20,),
-              Align(
-                child: SmallText(text: 'Пароль',),
-                alignment: Alignment.centerLeft,
-              ),
-              SizedBox(height: 12,),
-              CustomInputPassword(controller: _passwordController),
-              SizedBox(height: 20,),
-              ButtonPrimary(
-                text: "Регистрация",
-                onPress: () {
-                  final login = _usernameController.text;
-                  final password = _passwordController.text;
-                  final name = _nameController.text;
+                const SizedBox(height: 20,),
+                Header(text: "Ты уже на шаг ближе к спорту!", textAlign: TextAlign.left,),
+                const SizedBox(height: 20,),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SmallText(text: 'Email',),
+                ),
+                const SizedBox(height: 12,),
+                CustomInput(controller: _usernameController),
+                const SizedBox(height: 20,),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SmallText(text: 'Имя',),
+                ),
+                const SizedBox(height: 12,),
+                CustomInput(controller: _nameController),
+                const SizedBox(height: 20,),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SmallText(text: 'Пароль',),
+                ),
+                const SizedBox(height: 12,),
+                CustomInputPassword(controller: _passwordController),
+                const SizedBox(height: 20,),
+                ButtonPrimary(
+                  text: "Регистрация",
+                  onPress: () {
+                    final login = _usernameController.text;
+                    final password = _passwordController.text;
+                    final name = _nameController.text;
 
-                  if (login.isEmpty || password.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Вы не ввели логин или пароль')),
+                    if (login.isEmpty || password.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Вы не ввели логин или пароль')),
+                      );
+                      return;
+                    }
+
+                    BlocProvider.of<AuthBloc>(context).add(
+                      SignUpEvent(
+                        login: login,
+                        password: password,
+                        name: name,
+                      ),
                     );
-                    return;
-                  }
-
-                  BlocProvider.of<AuthBloc>(context).add(
-                    SignUpEvent(
-                      login: login,
-                      password: password,
-                      name: name,
-                    ),
-                  );
-                },
-                isFullWidth: true,
-              ),
-              SizedBox(height: 6,),
-              CombinedText(
-                mainText: "Уже есть аккаунт?",
-                clickableText: "Войти",
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 12,),
-              Text(
-                "Нажимая на кнопку регистрации, вы соглашаетесь с Правилами Использования и Политикой Конфиденциальности",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: 'GilroyRegular'
+                  },
+                  isFullWidth: true,
                 ),
-                textAlign: TextAlign.center,
-              )
-            ],
+                const SizedBox(height: 6,),
+                CombinedText(
+                  mainText: "Уже есть аккаунт?",
+                  clickableText: "Войти",
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 12,),
+                const Text(
+                  "Нажимая на кнопку регистрации, вы соглашаетесь с Правилами Использования и Политикой Конфиденциальности",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'GilroyRegular'
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
           ),
         ),
-      ),
+      )
     );
   }
 }

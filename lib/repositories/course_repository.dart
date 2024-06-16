@@ -40,13 +40,11 @@ class CourseRepository {
   }
 
   Future<Map<String, dynamic>> createCourse(Course course) async {
-    print("HERE IS COURSE");
     final token = await AuthService().getToken();
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
-    print(jsonEncode(course.toJson()));
     final response = await http.post(
       Uri.parse('$baseUrl/course'),
       headers: headers,
@@ -59,7 +57,6 @@ class CourseRepository {
       throw Exception('Failed to create course. ${response.body}');
     }
   }
-
 
   Future<void> updateCourse(int courseId, Course course) async {
     final token = await AuthService().getToken();

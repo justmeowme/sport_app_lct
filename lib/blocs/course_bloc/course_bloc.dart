@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/repositories/course_repository.dart';
 import 'package:sport_app_lct/repositories/user_repository.dart';
 
@@ -20,8 +20,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       final courses = await courseRepository.getCourses();
       emit(CoursesLoaded(courses));
     } catch (e) {
-      emit(CoursesError("Failed to load courses + ${e}"));
-      print("error is ${e}");
+      emit(CoursesError("Failed to load courses + $e"));
     }
   }
 
@@ -33,8 +32,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       emit(CourseCreationSuccess());
       add(LoadCourses());
     } catch (e) {
-      print("error create is ${e}");
-      print("COURSE IS HERE");
       emit(CoursesError("Failed to create course"));
 
     }

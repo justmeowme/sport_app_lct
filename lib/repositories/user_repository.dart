@@ -17,18 +17,11 @@ class UserRepository {
     };
     final body = jsonEncode(user.toJson());
 
-    print('Request URL: $url');
-    print('Request Headers: $headers');
-    print('Request Body: $body');
-
     final response = await http.put(
       Uri.parse(url),
       headers: headers,
       body: body,
     );
-
-    print('Response Status: ${response.statusCode}');
-    print('Response Body: ${response.body}');
 
     if (response.statusCode != 200) {
       throw Exception('Failed to complete onboarding: ${response.statusCode}');
@@ -62,10 +55,8 @@ class UserRepository {
     };
     final response = await http.get(
       headers: headers,
-      Uri.parse('$baseUrl'),
+      Uri.parse(baseUrl),
     );
-
-    print(response.body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -85,7 +76,7 @@ class UserRepository {
       Uri.parse('$baseUrl/upload/icon'),
     );
     request.headers.addAll(headers);
-    request.files.add(await http.MultipartFile.fromPath('file', image.path));
+    request.files.add(await http.MultipartFile.fromPath('icon', image.path));
 
     final response = await request.send();
 
@@ -97,5 +88,4 @@ class UserRepository {
       throw Exception('Failed to upload user icon');
     }
   }
-
 }

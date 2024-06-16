@@ -11,4 +11,3 @@ class Message {
     required this.isMe,
   });
 }
-

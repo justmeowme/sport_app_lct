@@ -3,16 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/blocs/course_bloc/course_bloc.dart';
 import 'package:sport_app_lct/blocs/course_bloc/course_event.dart';
 import 'package:sport_app_lct/blocs/course_bloc/course_state.dart';
-import 'package:sport_app_lct/models/course.dart';
-import 'package:sport_app_lct/screens/coach/coach_home_screen.dart';
 import 'package:sport_app_lct/screens/courses/create_course.dart';
 import 'package:sport_app_lct/widgets/button_primary.dart';
-
 import '../../widgets/course_widget.dart';
 import '../../widgets/header.dart';
-import '../coach/coach_main_screen.dart';
 
 class CoursesList extends StatelessWidget {
+  const CoursesList({super.key});
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<CoursesBloc>(context).add(LoadCourses());
@@ -20,7 +18,7 @@ class CoursesList extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(top: 48, left: 20, right: 20),
+        padding: const EdgeInsets.only(top: 48, left: 20, right: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,25 +29,21 @@ class CoursesList extends StatelessWidget {
                 GestureDetector(
                   child: Image.asset("assets/back_button.png", height: 44, width: 44,),
                   onTap: (){
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => CoachMainScreen(),
-                      ),
-                    );
+                    Navigator.of(context).pop();
                   },
                 ),
-                Spacer(),
+                const Spacer(),
                 Center(
                   child: Header(text: "Ваши курсы",),
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
             Expanded(
               child: BlocBuilder<CoursesBloc, CoursesState>(
                 builder: (context, coursesState) {
                   if (coursesState is CoursesLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (coursesState is CoursesLoaded) {
@@ -73,19 +67,18 @@ class CoursesList extends StatelessWidget {
               ),
             ),
             ButtonPrimary(
-                text: "Создать курс",
-                onPress: (){
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => CreateCourse(),
-                    ),
-                  );
-                },
-                isFullWidth: true,
+              text: "Создать курс",
+              onPress: (){
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CreateCourse(),
+                  ),
+                );
+              },
+              isFullWidth: true,
             ),
-            SizedBox(height: 20,)
+            const SizedBox(height: 20,)
           ],
-
         ),
       )
     );

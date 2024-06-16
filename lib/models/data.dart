@@ -1,5 +1,3 @@
-import 'package:sport_app_lct/models/image.dart';
-
 class Data {
   final String header;
   final int value;

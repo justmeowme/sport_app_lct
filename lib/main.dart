@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/repositories/auth_repository.dart';
 import 'package:sport_app_lct/repositories/course_repository.dart';
+import 'package:sport_app_lct/repositories/exercise_repository.dart';
 import 'package:sport_app_lct/repositories/user_repository.dart';
 import 'package:sport_app_lct/screens/auth/start_screen.dart';
 import 'package:sport_app_lct/screens/coach/coach_main_screen.dart';
@@ -9,6 +10,7 @@ import 'package:sport_app_lct/socket/SocketConnection.dart';
 import 'blocs/auth_bloc/auth_bloc.dart';
 import 'blocs/course_bloc/course_bloc.dart';
 import 'blocs/course_bloc/course_event.dart';
+import 'blocs/exercise_bloc/exercise_bloc.dart';
 import 'models/user.dart';
 import 'screens/client/client_home_screen.dart';
 import 'screens/coach/coach_home_screen.dart';
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final courseRepository = CourseRepository();
     final userRepository = UserRepository();
+    final exerciseRepository = ExerciseRepository();
 
     return MultiBlocProvider(
       providers: [
@@ -32,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<CoursesBloc>(
             create: (context) => CoursesBloc( courseRepository: courseRepository, userRepository: userRepository)
+        ),
+        BlocProvider<ExerciseBloc>(
+          create: (context) => ExerciseBloc(exerciseRepository: exerciseRepository),
         )
       ],
       child: MaterialApp(
