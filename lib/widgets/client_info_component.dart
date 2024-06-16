@@ -17,9 +17,8 @@ class ClientInfoComponent extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(12.0))
       ),
       width: 160,
-      height: 100,
       child: Padding(
-        padding: EdgeInsets.only(left: 32, right: 12, top: 4, bottom: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
             Column(
@@ -28,7 +27,7 @@ class ClientInfoComponent extends StatelessWidget {
                 Text(
                   header,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 13,
                     fontFamily: 'GilroyMedium',
                     fontWeight: FontWeight.bold,
                   ),
