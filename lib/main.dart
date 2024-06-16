@@ -10,6 +10,7 @@ import 'package:sport_app_lct/repositories/exercise_repository.dart';
 import 'package:sport_app_lct/repositories/user_repository.dart';
 import 'package:sport_app_lct/screens/auth/start_screen.dart';
 import 'package:sport_app_lct/screens/coach/coach_main_screen.dart';
+import 'package:sport_app_lct/socket/SocketConnection.dart';
 import 'blocs/auth_bloc/auth_bloc.dart';
 import 'blocs/course_bloc/course_bloc.dart';
 import 'blocs/course_bloc/course_event.dart';
@@ -28,7 +29,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final courseRepository = CourseRepository();
     final userRepository = UserRepository();
     final exerciseRepository = ExerciseRepository();
