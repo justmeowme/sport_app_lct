@@ -102,7 +102,7 @@ class ClientTrainsScreenState extends State<ClientTrainsScreen> {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 20),
                           child: CourseWidget(
-                            course: coursesState.courses[index],
+                            course: coursesState.courses[index], color: [Color(0xFFFF2F2D), Color(0xFF0CA1B1), Color(0xFF2D68FF), Color(0xFFED6929)][index%4],
                           ),
                         );
                       },
