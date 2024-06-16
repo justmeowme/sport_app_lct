@@ -1,3 +1,5 @@
+import '../../models/exercise.dart';
+
 abstract class ExerciseEvent {}
 
 class LoadExercisesEvent extends ExerciseEvent {}
@@ -8,3 +10,4 @@ class FilterExercisesEvent extends ExerciseEvent {
 
   FilterExercisesEvent({this.muscle, this.difficulty});
 }
+

@@ -14,7 +14,7 @@ class ClientMainScreen extends StatelessWidget {
         controller: _pageController,
         children: [
           ClientBodyScreen(),
-          const ClientStatsScreen(),
+          ClientStatsScreen(),
         ],
       ),
     );

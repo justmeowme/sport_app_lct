@@ -12,6 +12,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc({required this.courseRepository, required this.userRepository}) : super(CoursesLoading()) {
     on<LoadCourses>(_onLoadCourses);
     on<CreateCourseEvent>(_onCreateCourseEvent);
+    on<LoadCourseById>(_onLoadCourseById);
   }
 
   void _onLoadCourses(LoadCourses event, Emitter<CoursesState> emit) async {
@@ -33,7 +34,18 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       add(LoadCourses());
     } catch (e) {
       emit(CoursesError("Failed to create course"));
+    }
+  }
 
+  void _onLoadCourseById(LoadCourseById event, Emitter<CoursesState> emit) async {
+    emit(CourseLoading());
+    try {
+      final course = await courseRepository.getCourseById(event.courseId);
+      emit(CourseLoaded(course));
+    } catch (e) {
+      print("error is");
+      print(e);
+      emit(CoursesError("Failed to load course by ID + $e"));
     }
   }
 }

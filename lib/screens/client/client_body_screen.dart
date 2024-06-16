@@ -1,7 +1,18 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sport_app_lct/models/user.dart';
+import 'package:sport_app_lct/screens/client/client_nutrition_screen.dart';
 import 'package:sport_app_lct/widgets/client_info_component.dart';
+import 'package:sport_app_lct/widgets/custom_input.dart';
+import '../../blocs/user_bloc/user_event.dart';
+import '../../services/auth/auth_service.dart';
 import '../../widgets/header.dart';
+import '../../blocs/user_bloc/user_bloc.dart';
+import '../../blocs/user_bloc/user_state.dart';
 
 class ClientBodyScreen extends StatelessWidget {
   const ClientBodyScreen({super.key});
@@ -9,6 +20,8 @@ class ClientBodyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final kToday = DateTime.now();
+
+
 
     return Scaffold(
       backgroundColor: const Color(0xFF202439),
@@ -32,42 +45,68 @@ class ClientBodyScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 32),
-                    Row(
-                      children: [
-                        Image.asset("assets/man_siluet.png", height: 450),
-                        const Spacer(),
-                        Column(
-                          children: [
-                            ClientInfoComponent(
-                              header: "За неделю",
-                              value: "12",
-                              value_description: "тренировок",
-                              onPress: () {},
-                            ),
-                            const SizedBox(height: 12),
-                            ClientInfoComponent(
-                              header: "Вес",
-                              value: "72",
-                              value_description: "кг",
-                              onPress: () {},
-                            ),
-                            const SizedBox(height: 12),
-                            ClientInfoComponent(
-                              header: "Калории",
-                              value: "260",
-                              value_description: "ккал",
-                              onPress: () {},
-                            ),
-                            const SizedBox(height: 12),
-                            ClientInfoComponent(
-                              header: "Вода",
-                              value: "4",
-                              value_description: "стакана",
-                              onPress: () {},
-                            ),
-                          ],
-                        ),
-                      ],
+                    BlocBuilder<UserBloc, UserState>(
+                      builder: (context, state) {
+                        if (state is UserLoadingState) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (state is UserLoadedState) {
+                          final user = state.user;
+                          print('User: ${jsonEncode(user)}');
+                          return Row(
+                            children: [
+                              Image.asset(user.gender == "Female" ? "assets/woman_siluet.png" : "assets/man_siluet.png", height: 450),
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  ClientInfoComponent(
+                                    header: "За неделю",
+                                    withPlus: false,
+                                    value: "0",
+                                    value_description: "тренировок",
+                                    onPress: () {
+                                    },
+                                  ),
+                                  const SizedBox(height: 12),
+                                  ClientInfoComponent(
+                                    header: "Вес",
+                                    value: user.weight?.last["value"] ?? 0,
+                                    value_description: "кг",
+                                    onPress: () {
+                                      _showWeightInputDialog(context, user);
+                                    },
+                                  ),
+                                  const SizedBox(height: 12),
+                                  ClientInfoComponent(
+                                    header: "Калории",
+                                    value: "0",
+                                    value_description: "ккал",
+                                    onPress: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => const ClientNutritionScreen(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 12),
+                                  ClientInfoComponent(
+                                    header: "Вода",
+                                    value: "0",
+                                    value_description: "стаканов",
+                                    onPress: () {
+
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        } else if (state is UserErrorState) {
+                          return Center(child: Text('Ошибка: ${state.message}'));
+                        } else {
+                          return const Center(child: Text('Нет данных'));
+                        }
+                      },
                     ),
                     const SizedBox(height: 12),
                     GestureDetector(
@@ -82,6 +121,65 @@ class ClientBodyScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showWeightInputDialog(BuildContext context, User user) {
+    TextEditingController weightController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text(
+              "Введите новый вес",
+            style: TextStyle(
+              fontSize: 24,
+              fontFamily: 'GilroyMedium'
+            ),
+          ),
+          content: SizedBox(height: 72, child: CustomInput(controller: weightController,),),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Отмена", style: TextStyle(fontFamily: 'GilroyMedium', fontSize: 16, color: Color(0xFFED6929)),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("Сохранить", style: TextStyle(fontFamily: 'GilroyMedium', fontSize: 16, color: Color(0xFFED6929)),),
+              onPressed: () async {
+
+                final token = await AuthService().getToken();
+                final headers = {
+                  'Authorization': 'Bearer $token',
+                };
+
+                String newWeight = weightController.text;
+                String baseUrl = "http://sport-plus.sorewa.ru:8080/v1";
+
+                final response = await http.post(
+                  Uri.parse("$baseUrl/user/measurements"),
+                  headers: headers,
+                  body: jsonEncode({
+                    "date": DateTime.now().toString(),
+                    "value": newWeight.toString().trim(),
+                    "type": "weight",
+                  })
+                );
+
+                print(response.body);
+
+                context.read<UserBloc>().add(UpdateUserEvent(user: user));
+
+                Navigator.of(context).pop();
+
+              }
+            ),
+          ],
+        );
+      },
     );
   }
 }

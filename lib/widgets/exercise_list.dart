@@ -1,63 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sport_app_lct/blocs/exercise_bloc/exercise_bloc.dart';
-import 'package:sport_app_lct/blocs/exercise_bloc/exercise_event.dart';
-import 'package:sport_app_lct/blocs/exercise_bloc/exercise_state.dart';
 import 'package:sport_app_lct/models/exercise.dart';
 import 'package:sport_app_lct/widgets/exercise_widget.dart';
 
-class ExerciseList extends StatelessWidget {
+class ExerciseList extends StatefulWidget {
+  final List<Exercise> exercises;
   final String? muscle;
   final String? difficulty;
+  final Function(Exercise) onExerciseSelected;
 
-  ExerciseList({this.muscle, this.difficulty});
+  ExerciseList({
+    required this.exercises,
+    this.muscle,
+    this.difficulty,
+    required this.onExerciseSelected,
+  });
+
+  @override
+  _ExerciseListState createState() => _ExerciseListState();
+}
+
+class _ExerciseListState extends State<ExerciseList> {
+  Exercise? _selectedExercise;
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ExerciseBloc>(context).add(
-      FilterExercisesEvent(
-        muscle: muscle,
-        difficulty: difficulty,
-      ),
-    );
+    List<Exercise> filteredExercises = widget.exercises.where((exercise) {
+      bool matchesMuscle = widget.muscle == null || exercise.muscle == widget.muscle;
+      bool matchesDifficulty = widget.difficulty == null || exercise.difficulty == widget.difficulty;
+      return matchesMuscle && matchesDifficulty;
+    }).toList();
 
-    return BlocBuilder<ExerciseBloc, ExerciseState>(
-      builder: (context, state) {
-        if (state is ExerciseLoadingState) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is ExerciseLoadedState) {
-          return ListView.builder(
-            itemCount: state.exercises.length,
-            itemBuilder: (context, index) {
-              final exercise = state.exercises[index];
-              return Column(
-                children: [
-                  ExerciseWidget(
-                    selected: false,
-                    exercise: Exercise(
-                      id: exercise.id,
-                      additionalMuscle: exercise.additionalMuscle,
-                      createdAt: exercise.createdAt,
-                      difficulty: exercise.difficulty,
-                      equipment: exercise.equipment,
-                      muscle: exercise.muscle,
-                      name: exercise.name,
-                      originalUri: exercise.originalUri,
-                      photos: exercise.photos,
-                      type: exercise.type,
-                      updatedAt: exercise.updatedAt,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                ],
-              );
-            },
-          );
-        } else if (state is ExerciseErrorState) {
-          return Center(child: Text('Error: ${state.message}'));
-        } else {
-          return Center(child: Text('Упражнений не найдено'));
-        }
+    if (filteredExercises.isEmpty) {
+      return Center(child: Text('Упражнений не найдено'));
+    }
+
+    return ListView.builder(
+      itemCount: filteredExercises.length,
+      itemBuilder: (context, index) {
+        final exercise = filteredExercises[index];
+        bool isSelected = _selectedExercise == exercise;
+
+        return Column(
+          children: [
+            ExerciseWidget(
+                selected: isSelected,
+                exercise: exercise,
+                onSelected: () {
+                  setState(() {
+                    if (isSelected) {
+                      _selectedExercise = null; // Unselect if already selected
+                    } else {
+                      _selectedExercise = exercise; // Select new exercise
+                    }
+                  });
+                  widget.onExerciseSelected(exercise);
+                }
+            ),
+            SizedBox(height: 8),
+          ],
+        );
       },
     );
   }

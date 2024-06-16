@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sport_app_lct/blocs/classes_bloc/classes_bloc.dart';
+import 'package:sport_app_lct/blocs/user_bloc/user_bloc.dart';
+import 'package:sport_app_lct/models/classes.dart';
 import 'package:sport_app_lct/repositories/auth_repository.dart';
+import 'package:sport_app_lct/repositories/classes_repository.dart';
 import 'package:sport_app_lct/repositories/course_repository.dart';
 import 'package:sport_app_lct/repositories/exercise_repository.dart';
 import 'package:sport_app_lct/repositories/user_repository.dart';
@@ -10,6 +14,7 @@ import 'blocs/auth_bloc/auth_bloc.dart';
 import 'blocs/course_bloc/course_bloc.dart';
 import 'blocs/course_bloc/course_event.dart';
 import 'blocs/exercise_bloc/exercise_bloc.dart';
+import 'blocs/user_bloc/user_event.dart';
 import 'models/user.dart';
 import 'screens/client/client_home_screen.dart';
 import 'screens/coach/coach_home_screen.dart';
@@ -27,9 +32,13 @@ class MyApp extends StatelessWidget {
     final courseRepository = CourseRepository();
     final userRepository = UserRepository();
     final exerciseRepository = ExerciseRepository();
+    final lessonRepository = ClassesRepository();
 
     return MultiBlocProvider(
       providers: [
+        BlocProvider<UserBloc>(
+            create: (context) => UserBloc(userRepository: userRepository)..add(LoadUserEvent()),
+        ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(authRepository: AuthRepository(), userRepository: UserRepository()),
         ),
@@ -38,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ExerciseBloc>(
           create: (context) => ExerciseBloc(exerciseRepository: exerciseRepository),
+        ),
+        BlocProvider<ClassesBloc>(
+          create: (context) => ClassesBloc(classesRepository: lessonRepository),
         )
       ],
       child: MaterialApp(

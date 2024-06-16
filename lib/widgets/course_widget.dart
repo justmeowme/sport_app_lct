@@ -6,15 +6,16 @@ import 'package:sport_app_lct/widgets/header.dart';
 
 class CourseWidget extends StatelessWidget {
   final Course course;
+  final Color color;
 
-  CourseWidget({required this.course,});
+  CourseWidget({required this.course, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 200,
       decoration: BoxDecoration(
-        color: Color(0xFFFF2F2D),
+        color: color,
         borderRadius: BorderRadius.all(Radius.circular(12))
       ),
       child: Padding(
@@ -40,7 +41,7 @@ class CourseWidget extends StatelessWidget {
                   onTap: (){
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => EditCourse(course: course),
+                        builder: (context) => EditCourse(courseId: course.id!),
                       ),
                     );
                   },

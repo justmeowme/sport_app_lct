@@ -4,6 +4,12 @@ abstract class CoursesEvent {}
 
 class LoadCourses extends CoursesEvent {}
 
+class LoadCourseById extends CoursesEvent {
+  final int courseId;
+
+  LoadCourseById(this.courseId);
+}
+
 class CreateCourseEvent extends CoursesEvent {
   final Course course;
 

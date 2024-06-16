@@ -32,6 +32,10 @@ class CourseRepository {
 
     final response = await http.get(Uri.parse('$baseUrl/course/$courseId'), headers: headers);
 
+    print("RESPONSE BODY COURSE");
+    print(response.body);
+    print(response.statusCode);
+
     if (response.statusCode == 200) {
       return Course.fromJson(jsonDecode(response.body));
     } else {

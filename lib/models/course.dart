@@ -1,4 +1,4 @@
-import 'class.dart';
+import 'package:sport_app_lct/models/classes.dart';
 
 class Course {
   final int id;
@@ -12,7 +12,7 @@ class Course {
   final int rating;
   final String requiredTools;
   final int trainerId;
-  final List<Class> classes;
+  final List<Classes> classes;
 
   Course({
     required this.id,
@@ -33,16 +33,16 @@ class Course {
     return Course(
       id: json['id'],
       title: json['title'],
-      description: json['description'],
-      direction: json['direction'],
-      difficultyNumeric: json['difficulty_numeric'],
-      difficulty: json['difficulty'],
+      description: json['description'] ?? "",
+      direction: json['direction'] ?? "",
+      difficultyNumeric: json['difficulty_numeric'] ?? 0,
+      difficulty: json['difficulty'] ?? "",
       cost: json['cost'],
-      participantsCount: json['participants_count'],
-      rating: json['rating'],
-      requiredTools: json['required_tools'],
+      participantsCount: json['participants_count'] ?? 0,
+      rating: json['rating'] ?? 0,
+      requiredTools: json['required_tools'] ?? "",
       trainerId: json['trainer_id'],
-      classes: json['classes'] != null ? (json['classes'] as List).map((i) => Class.fromJson(i)).toList() : <Class>[],
+      classes: json['classes'] != null ? (json['classes'] as List).map((i) => Classes.fromJson(i)).toList() : <Classes>[],
     );
   }
 
@@ -77,7 +77,7 @@ class Course {
     int? trainerId,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<Class>? classes,
+    List<Classes>? classes,
   }) {
     return Course(
       id: id ?? this.id,

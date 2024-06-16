@@ -16,6 +16,8 @@ class UserRepository {
       'Authorization': 'Bearer $token',
     };
     final body = jsonEncode(user.toJson());
+    print(body);
+    print("here body");
 
     final response = await http.put(
       Uri.parse(url),

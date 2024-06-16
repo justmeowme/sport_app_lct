@@ -17,3 +17,11 @@ class CoursesError extends CoursesState {
 
   CoursesError(this.message);
 }
+
+class CourseLoading extends CoursesState {}
+
+class CourseLoaded extends CoursesState {
+  final Course course;
+
+  CourseLoaded(this.course);
+}

@@ -33,4 +33,6 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
       emit(ExerciseErrorState(message: e.toString()));
     }
   }
+
+
 }

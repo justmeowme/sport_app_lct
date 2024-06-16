@@ -16,4 +16,24 @@ class Photo {
       url: json['url'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'exercise_id': exerciseId,
+      'id': id,
+      'url': url,
+    };
+  }
+
+  Photo copyWith({
+    int? exerciseId,
+    int? id,
+    String? url,
+  }) {
+    return Photo(
+      exerciseId: exerciseId ?? this.exerciseId,
+      id: id ?? this.id,
+      url: url ?? this.url,
+    );
+  }
 }

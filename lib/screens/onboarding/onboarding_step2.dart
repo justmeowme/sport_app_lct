@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sport_app_lct/screens/onboarding/onboarding_step3.dart';
 import 'package:sport_app_lct/models/user.dart';
@@ -20,6 +22,9 @@ class OnboardingStep2State extends State<OnboardingStep2> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(jsonEncode(widget.user));
+    
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(

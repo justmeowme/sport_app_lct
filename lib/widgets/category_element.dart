@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-import 'package:sport_app_lct/widgets/description.dart';
 import 'package:sport_app_lct/widgets/small_text.dart';
 
 class CategoryElement extends StatefulWidget {

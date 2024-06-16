@@ -55,8 +55,14 @@ class CoursesList extends StatelessWidget {
                     return ListView.builder(
                       itemCount: coursesState.courses.length,
                       itemBuilder: (context, index) {
-                        return CourseWidget(
-                          course: coursesState.courses[index],
+                        return Column(
+                          children: [
+                            CourseWidget(
+                              color: [Color(0xFFFF2F2D), Color(0xFF2D68FF), Color(0xFF0CA1B1), Color(0xFFED6929)][(index%4).round()],
+                              course: coursesState.courses[index],
+                            ),
+                            SizedBox(height: 12,)
+                          ],
                         );
                       },
                     );

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app_lct/blocs/auth_bloc/auth_bloc.dart';
@@ -28,6 +30,7 @@ class _OnboardingStep4State extends State<OnboardingStep4> {
 
   @override
   Widget build(BuildContext context) {
+    print(jsonEncode(widget.user));
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<AuthBloc, AuthState>(
@@ -60,7 +63,7 @@ class _OnboardingStep4State extends State<OnboardingStep4> {
               SizedBox(height: 20),
               FormWidget(
                 isMultiSelect: false,
-                isHorizontal: true,
+                isHorizontal: false,
                 items: [
                   {'icon': null, 'text': 'Да'},
                   {'icon': null, 'text': 'Нет'},
@@ -88,6 +91,8 @@ class _OnboardingStep4State extends State<OnboardingStep4> {
                   final updatedUser = widget.user.copyWith(
                       healthConditions: (hasHealthConditions && _healthConditionController.text.isNotEmpty) ? "Противопоказания и травмы: ${_healthConditionController.text}" : "Нет противопоказаний и травм"
                   );
+
+                  print(jsonEncode(updatedUser));
 
                   BlocProvider.of<AuthBloc>(context).add(
                     CompleteOnboardingEvent(user: updatedUser),

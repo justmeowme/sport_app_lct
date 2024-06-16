@@ -24,3 +24,5 @@ class CompleteOnboardingEvent extends AuthEvent {
 
   CompleteOnboardingEvent({required this.user});
 }
+
+

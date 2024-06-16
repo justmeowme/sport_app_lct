@@ -4,10 +4,11 @@ class ClientInfoComponent extends StatelessWidget {
   final String header;
   final String value;
   final String value_description;
+  final bool withPlus;
 
   final VoidCallback onPress;
 
-  ClientInfoComponent({required this.header, required this.value, required this.value_description, required this.onPress});
+  ClientInfoComponent({required this.header, required this.value, required this.value_description, required this.onPress, this.withPlus = true});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,13 @@ class ClientInfoComponent extends StatelessWidget {
               ],
             ),
             Spacer(),
-            Image.asset("assets/plus.png", height: 24,),
+            GestureDetector(
+              onTap: onPress,
+              child: Opacity(
+                child: Image.asset("assets/plus.png", height: 24,),
+                opacity: withPlus == false ? 0.0 : 1.0,
+              ),
+            )
           ],
         )
       )
