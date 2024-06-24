@@ -72,7 +72,7 @@ class ClientBodyScreen extends StatelessWidget {
                                     value: "50",
                                     value_description: "кг",
                                     onPress: () {
-                                      _showWeightInputDialog(context, user);
+                                      _showWeightInputDialog(context, user, "Введите новый вес");
                                     },
                                   ),
                                   const SizedBox(height: 12),
@@ -81,11 +81,7 @@ class ClientBodyScreen extends StatelessWidget {
                                     value: "0",
                                     value_description: "ккал",
                                     onPress: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => const ClientNutritionScreen(),
-                                        ),
-                                      );
+                                      _showWeightInputDialog(context, user, "Введите кол-во ккал");
                                     },
                                   ),
                                   const SizedBox(height: 12),
@@ -94,7 +90,7 @@ class ClientBodyScreen extends StatelessWidget {
                                     value: "0",
                                     value_description: "стаканов",
                                     onPress: () {
-
+                                      _showWeightInputDialog(context, user, "Введите кол-во стаканов воды");
                                     },
                                   ),
                                 ],
@@ -126,7 +122,7 @@ class ClientBodyScreen extends StatelessWidget {
     );
   }
 
-  void _showWeightInputDialog(BuildContext context, User user) {
+  void _showWeightInputDialog(BuildContext context, User user, String header) {
     TextEditingController weightController = TextEditingController();
 
     showDialog(
@@ -135,7 +131,7 @@ class ClientBodyScreen extends StatelessWidget {
         return AlertDialog(
           backgroundColor: Colors.white,
           title: Text(
-              "Введите новый вес",
+              header,
             style: TextStyle(
               fontSize: 24,
               fontFamily: 'GilroyMedium'
