@@ -21,8 +21,6 @@ class ClientBodyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final kToday = DateTime.now();
 
-
-
     return Scaffold(
       backgroundColor: const Color(0xFF202439),
       body: Column(
@@ -47,7 +45,9 @@ class ClientBodyScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     BlocBuilder<UserBloc, UserState>(
                       builder: (context, state) {
+                        print(state);
                         if (state is UserLoadingState) {
+                          print("loading");
                           return const Center(child: CircularProgressIndicator());
                         } else if (state is UserLoadedState) {
                           final user = state.user;
@@ -69,7 +69,7 @@ class ClientBodyScreen extends StatelessWidget {
                                   const SizedBox(height: 12),
                                   ClientInfoComponent(
                                     header: "Вес",
-                                    value: user.weight?.last["value"] ?? 0,
+                                    value: "50",
                                     value_description: "кг",
                                     onPress: () {
                                       _showWeightInputDialog(context, user);
@@ -102,8 +102,10 @@ class ClientBodyScreen extends StatelessWidget {
                             ],
                           );
                         } else if (state is UserErrorState) {
+                          print("ERROR");
                           return Center(child: Text('Ошибка: ${state.message}'));
                         } else {
+                          print("NO DATA");
                           return const Center(child: Text('Нет данных'));
                         }
                       },
