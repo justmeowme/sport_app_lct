@@ -6,6 +6,8 @@ import 'package:sport_app_lct/blocs/course_bloc/course_event.dart';
 import 'package:sport_app_lct/blocs/course_bloc/course_state.dart';
 import 'package:sport_app_lct/widgets/course_widget.dart';
 
+import '../courses/сourse_for_client.dart';
+
 class ClientTrainsScreen extends StatefulWidget {
 
   const ClientTrainsScreen({super.key});
@@ -20,7 +22,6 @@ class ClientTrainsScreenState extends State<ClientTrainsScreen> {
   @override
   void initState() {
     super.initState();
-    // Initial event dispatch
     BlocProvider.of<CoursesBloc>(context).add(LoadCourses());
   }
 
@@ -101,8 +102,19 @@ class ClientTrainsScreenState extends State<ClientTrainsScreen> {
                       itemBuilder: (context, index) {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 20),
-                          child: CourseWidget(
-                            course: coursesState.courses[index], color: [Color(0xFFFF2F2D), Color(0xFF0CA1B1), Color(0xFF2D68FF), Color(0xFFED6929)][index%4],
+                          child: GestureDetector(
+                            onTap: (){
+                              print("COURSE CLICKED!!!!!!!!!");
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => CourseForClient(courseId: coursesState.courses[index].id),
+                                ),
+                              );
+                            },
+                            child: CourseWidget(
+                              color: [Color(0xFFFF2F2D), Color(0xFF2D68FF), Color(0xFF0CA1B1), Color(0xFFED6929)][(index%4).round()],
+                              course: coursesState.courses[index],
+                            ),
                           ),
                         );
                       },
